@@ -14,15 +14,13 @@
 Route::get('/', function () {
     return view('admin.index');
 });
-Route::get('/category', function () {
-    return view('admin.Category_list');
-});
 Route::get('login','Admin\LoginController@index');
 Route::get('login/captcha/{code?}','Admin\LoginController@captcha');
 Route::resource('news','Admin\NewsController');
 Route::get('news/top/{id}','Admin\NewsController@top');
 Route::get('news/no_top/{id?}','Admin\NewsController@no_top');
 Route::post('news/is_show/{id?}','Admin\NewsController@is_show');
+Route::resource('category','Admin\CategoryController');
 Route::resource('productadd','Admin\ProductController');
 Route::resource('books','Admin\BookController');
 Route::post('books/is_show/{id?}','Admin\BookController@is_show');
@@ -51,3 +49,4 @@ Route::any('/api/user_list','Api\ApiController@user_list');
 Route::any('/api/order_list','Api\ApiController@order_list');
 Route::any('/api/banner_list','Api\ApiController@banner_list');
 Route::any('/api/message_list','Api\ApiController@message_list');
+Route::get('/api/category_list','Api\ApiController@category_list');

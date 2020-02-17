@@ -5,6 +5,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Model\Banner;
+use App\Model\Category;
 use App\Model\Message;
 use App\Model\Order;
 use App\Model\Resource;
@@ -79,5 +80,11 @@ class ApiController extends Controller
         $page = $request->input('page',1);
         $limit = $request->input('limit',10);
         return $res->getList($page,$limit);
+    }
+    public function category_list(Request $request){
+        $cate = new Category();
+        $page = $request->input('page',1);
+        $limit = $request->input('limit',10);
+        return $cate->getList($page,$limit);
     }
 }

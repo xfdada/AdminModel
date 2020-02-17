@@ -1,7 +1,7 @@
-﻿@extends('layouts.head')
-@section('title', '类别管理')
-@section('keyword', '管理系统后台')
-@section('content')
+﻿
+<?php $__env->startSection('title', '类别管理'); ?>
+<?php $__env->startSection('keyword', '管理系统后台'); ?>
+<?php $__env->startSection('content'); ?>
     <div class="content-wrapper">
         <div class="container-fluid">
             <div class="row pt-2 pb-2">
@@ -39,8 +39,8 @@
     </div><!-- End Row-->
         </div>
     </div>
-@endsection
-@section('script')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('script'); ?>
     <script>
         layui.use('table', function(){
             var table = layui.table;
@@ -65,7 +65,7 @@
                 var data = obj.data;
                 if(obj.event === 'del'){
                     layer.confirm('真的删除该类别吗', function(index){
-                        $.post('/category/'+data.c_id,{_token: '{!! csrf_token() !!}',_method:'delete'},function (res) {
+                        $.post('/category/'+data.c_id,{_token: '<?php echo csrf_token(); ?>',_method:'delete'},function (res) {
                             if(res.code===0){
                                 obj.del();
                                 layer.msg(res.msg,{icon:6});
@@ -99,5 +99,7 @@
         }
 
     </script>
-@endsection
+<?php $__env->stopSection(); ?>
 
+
+<?php echo $__env->make('layouts.head', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\phpstudy_pro\WWW\AdminModel\resources\views/admin/Category_list.blade.php ENDPATH**/ ?>
