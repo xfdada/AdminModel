@@ -52,28 +52,40 @@
             //第一个实例
             table.render({
                 elem: '#test'
-                ,url: 'http://www.model.com/test.json' //数据接口
+                ,url: '/api/refund_list' //数据接口
                 ,toolbar:'#toolbarDemo'
                 ,defaultToolbar: ['', '', '']
                 ,page:{theme: '#1E9FFF'}
                 ,id:'#test3'
                 ,cols: [[ //表头
-                    {field: 'id', title: 'ID',  sort: true}
-                    ,{field: 'username', title: '订单号'}
-                    ,{field: 'sex', title: '申请人'}
+                    {field: 're_id', title: 'ID',  sort: true}
+                    ,{field: 'o_number', title: '订单号'}
+                    ,{field: 'user_name', title: '申请人'}
                     ,{field: 'city', title: '退款产品'}
-                    ,{field: 'sign', title: '退款金额'}
-                    ,{field: 'sign', title: '退款原因'}
-                    ,{field: 'sign', title: '申请时间'}
-                    ,{field: 'sign', title: '是否同意申请',templet:function (p){return getStatus(p);}}
-                    ,{field: 'sign', title: '退款状态',templet:function (p){return p.sign===1?'是':'否';}}
-                    ,{field: 'experience', title: '操作员'}
+                    ,{field: 're_money', title: '退款金额'}
+                    ,{field: 're_reason', title: '退款原因'}
+                    ,{field: 're_time', title: '申请时间'}
+                    ,{field: 'is_agree', title: '是否同意申请',templet:function (p){return getStatus(p);}}
+                    ,{field: 'is_sure', title: '退款状态',templet:function (p){return p.is_sure===1?'是':'否';}}
+                    ,{field: 'a_name', title: '操作员'}
                     ,{field: 'right', title: '操作',toolbar: '#barDemo' }
                 ]]
             });
             //监听开关操作
             form.on('switch(sexDemo)', function(obj){
-                layer.tips(this.value + ' ' + this.name + '：'+ obj.elem.checked, obj.othis);
+                let value = 0;
+                if(obj.elem.checked){
+                    value = 1;
+                }else {
+                    value = 2;
+                }
+                $.post('/refund/is_agree/'+obj.value,{_token: "<?php echo csrf_token(); ?>",value:value},function(res){
+                    if(res.code===0){
+                        layer.msg(res.msg,{icon:6});
+                    }else{
+                        layer.msg(res.msg,{icon:5});
+                    }
+                })
             });
             //监听工具条
             table.on('tool(test3)', function(obj){
@@ -81,7 +93,7 @@
                 if(obj.event === 'edit'){
 
                 }else if(obj.event ==='refund') {
-                    if(data.sign!==1){
+                    if(data.is_agree!==1){
                         layer.alert('不可操作，请先同意申请在进行操作');
                     }else{
                         layer.confirm('是否收到退货产品，', {
@@ -100,10 +112,10 @@
             });
         });
         function getStatus(p){
-            if (p.sign===1&&p.sign===1){
-                var str = ' <input type="checkbox" name="is_agree" disabled value="'+p.sign+'" checked lay-skin="switch" lay-text="是|否" lay-filter="sexDemo"/>';
+            if (p.is_agree===1){
+                var str = ' <input type="checkbox" name="is_agree" value="'+p.re_id+'" checked lay-skin="switch" lay-text="是|否" lay-filter="sexDemo"/>';
             } else {
-                var str = ' <input type="checkbox" name="is_agree" value="'+p.sign+'"  lay-skin="switch" lay-text="是|否" lay-filter="sexDemo"/>';
+                var str = ' <input type="checkbox" name="is_agree" value="'+p.re_id+'"  lay-skin="switch" lay-text="是|否" lay-filter="sexDemo"/>';
             }
             return str;
         }

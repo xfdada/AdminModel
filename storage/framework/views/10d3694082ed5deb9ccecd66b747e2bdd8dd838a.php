@@ -56,13 +56,13 @@
                 ,page:{theme: '#1E9FFF'}
                 ,id:'#test3'
                 ,cols: [[ //表头
-                    {field: 'id', title: 'ID',  sort: true}
-                    ,{field: 'username', title: '订单号'}
-                    ,{field: 'sex', title: '支付金额'}
-                    ,{field: 'city', title: '支付时间'}
-                    ,{field: 'sign', title: '订单生成时间'}
-                    ,{field: 'sign', title: '支付方式'}
+                    {field: 'pay_id', title: 'ID',  sort: true}
+                    ,{field: 'pay_order', title: '订单号'}
+                    ,{field: 'pay_money', title: '支付金额',  sort: true}
+                    ,{field: 'pay_time', title: '订单生成时间',  sort: true}
+                    ,{field: 'pay_type', title: '支付方式'}
                     ,{field: 'experience', title: '是否支付',templet:function (p){return p.sign===1?'是':'否';}}
+                    ,{field: 'success_time', title: '支付时间',  sort: true}
                     ,{field: 'right', title: '操作',toolbar: '#barDemo' }
                 ]]
             });

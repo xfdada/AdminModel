@@ -3,11 +3,14 @@
  * 前后端通用接口接口
  */
 namespace App\Http\Controllers\Api;
-
+use App\Model\AfterSell;
 use App\Model\Banner;
 use App\Model\Category;
+use App\Model\Comment;
 use App\Model\Message;
 use App\Model\Order;
+use App\Model\Product;
+use App\Model\Refund;
 use App\Model\Resource;
 use App\Model\User;
 use Illuminate\Http\Request;
@@ -86,5 +89,31 @@ class ApiController extends Controller
         $page = $request->input('page',1);
         $limit = $request->input('limit',10);
         return $cate->getList($page,$limit);
+    }
+    public function product_list(Request $request){
+        $product = new Product();
+        $page = $request->input('page',1);
+        $limit = $request->input('limit',10);
+        $cate = new Category();
+        $c = $cate->getTree();
+        return $product->getList($page,$limit,$c);
+    }
+    public function comment_list(Request $request){
+        $cm= new Comment();
+        $page = $request->input('page',1);
+        $limit = $request->input('limit',10);
+        return $cm->getList($page,$limit);
+    }
+    public function aftersell_list(Request $request){
+        $cm= new AfterSell();
+        $page = $request->input('page',1);
+        $limit = $request->input('limit',10);
+        return $cm->getList($page,$limit);
+    }
+    public function refund_list(Request $request){
+        $cm= new Refund();
+        $page = $request->input('page',1);
+        $limit = $request->input('limit',10);
+        return $cm->getList($page,$limit);
     }
 }

@@ -56,34 +56,51 @@
             //第一个实例
             table.render({
                 elem: '#test'
-                ,url: 'http://www.model.com/test.json' //数据接口
+                ,url: '/api/comment_list' //数据接口
                 ,toolbar:'#toolbarDemo'
                 ,defaultToolbar: ['', '', '']
                 ,page:{theme: '#1E9FFF'}
                 ,id:'#test3'
                 ,cols: [[ //表头
-                    {field: 'id', title: 'ID',  sort: true}
-                    ,{field: 'sex', title: '用户名称'}
-                    ,{field: 'city', title: '商品名称'}
-                    ,{field: 'sign', title: '评价图片(点击图片可查看)',templet:function (p){return getPicture(p);}}
-                    ,{field: 'experience', title: '评价内容'}
-                    ,{field: 'experience', title: '评价时间',sort: true}
-                    ,{field: 'experience', title: '回复(点击表格进行回复)',edit: 'text'}
-                    ,{field: 'sign', title: '是否显示',templet:function (p){return getStatus(p.sign);}}
+                    {field: 'cm_id', title: 'ID',  sort: true}
+                    ,{field: 'user_name', title: '用户名称'}
+                    ,{field: 'p_name', title: '商品名称'}
+                    ,{field: 'cm_img', title: '评价图片(点击图片可查看)',templet:function (p){return getPicture(p);}}
+                    ,{field: 'cm_content', title: '评价内容'}
+                    ,{field: 'cm_time', title: '评价时间',sort: true}
+                    ,{field: 'cm_replay', title: '回复(点击表格进行回复)',edit: 'text'}
+                    ,{field: 'is_show', title: '是否显示',templet:function (p){return getStatus(p);}}
                     ,{field: 'right', title: '操作',toolbar: '#barDemo' }
                 ]]
             });
             //开启编辑功能
             table.on('edit(test3)', function(obj){
                 var value = obj.value //得到修改后的值
-                    ,data = obj.data //得到所在行所有键值
-                    ,field = obj.field; //得到字段
-                layer.msg('[ID: '+ data.id +'] ' + field + ' 字段更改为：'+ value);
+                    ,data = obj.data ;//得到所在行所有键值
+                $.post('/comment/replay/'+data.cm_id,{replay:value,'_token': "{!! csrf_token() !!}"},function(res){
+                    if (res.code===5){
+                        layer.msg(res.msg,{icon:5});
+                    } else{
+                        layer.msg(res.msg,{icon:6});
+                    }
+                });
             });
 
             //监听开关操作
             form.on('switch(sexDemo)', function(obj){
-                layer.tips(this.value + ' ' + this.name + '：'+ obj.elem.checked, obj.othis);
+                let value = 0;
+                if(obj.elem.checked){
+                    value = 1;
+                }else {
+                    value = 2;
+                }
+                $.post('/comment/is_show/'+obj.value,{_token: "{!! csrf_token() !!}",value:value},function(res){
+                    if(res.code===0){
+                        layer.msg(res.msg,{icon:6});
+                    }else{
+                        layer.msg(res.msg,{icon:5});
+                    }
+                })
             });
             //监听工具条
             table.on('tool(test3)', function(obj){
@@ -126,11 +143,11 @@
             imgs[p.id] = p.sign;
         return str;
     }
-        function getStatus(status){
-            if (status===1){
-                var str = ' <input type="checkbox" name="is_show" value="'+status+'" checked lay-skin="switch" lay-text="是|否" lay-filter="sexDemo"/>';
+        function getStatus(p){
+            if (p.is_show===1){
+                var str = ' <input type="checkbox" name="is_show" value="'+p.cm_id+'" checked lay-skin="switch" lay-text="是|否" lay-filter="sexDemo"/>';
             } else {
-                var str = ' <input type="checkbox" name="is_show" value="'+status+'"  lay-skin="switch" lay-text="是|否" lay-filter="sexDemo"/>';
+                var str = ' <input type="checkbox" name="is_show" value="'+p.cm_id+'"  lay-skin="switch" lay-text="是|否" lay-filter="sexDemo"/>';
             }
             return str;
         }

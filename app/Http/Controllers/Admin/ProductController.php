@@ -27,6 +27,25 @@ class ProductController extends Controller
         $file = $request->all();
         dd($file);
     }
+    public function destroy ($id){
+        $product = new Product();
+        return $product->deletes($id);
+    }
+    public function is_show(Request $request,$id){
+        $value = $request->input('value',1);
+        $product = new Product();
+        return $product->is_show($id,$value);
+    }
+    public function is_hot(Request $request,$id){
+        $value = $request->input('value',1);
+        $product = new Product();
+        return $product->is_hot($id,$value);
+    }
+    public function is_new(Request $request,$id){
+        $value = $request->input('value',1);
+        $product = new Product();
+        return $product->is_new($id,$value);
+    }
     //图片上传。
     public function upload_img(Request $request){
         $file = $request->file('file');

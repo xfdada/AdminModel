@@ -83,7 +83,11 @@
                         layer.close(index);
                     });
                 } else if(obj.event === 'edit'){
-                    window.location.href = "/news_edit";
+                   if (data.is_pay===2){
+                       layer.alert('未付款不能发货');
+                       return;
+                   }
+
                 }else if(obj.event ==='top'){
 
                 } else if(obj.event ==='show'){

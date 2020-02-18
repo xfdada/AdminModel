@@ -37,7 +37,6 @@
                     <script type="text/html" id="barDemo">
                         <a style="color: #fff;" class="layui-btn layui-btn-xs layui-btn-normal" lay-event="show">查看</a>
                         <a style="color: #fff;"  class="layui-btn layui-btn-xs layui-btn-normal" lay-event="edit">编辑</a>
-                        <a style="color: #fff;"  class="layui-btn layui-btn-xs layui-btn-normal" lay-event="top">置顶</a>
                         <a style="color: #fff;"  class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
                     </script>
                 </div>
@@ -59,41 +58,81 @@
             //第一个实例
             table.render({
                 elem: '#test'
-                ,url: 'http://www.model.com/test.json' //数据接口
+                ,url: '/api/product_list' //数据接口
                 ,toolbar:'#toolbarDemo'
                 ,defaultToolbar: ['', '', '']
                 ,page:{theme: '#1E9FFF'}
                 ,id:'#test3'
                 ,cols: [[ //表头
-                    {field: 'id', title: 'ID',  sort: true, fixed: 'left'}
-                    ,{field: 'sex', title: '产品名称'}
-                    ,{field: 'city', title: '产品简介'}
-                    ,{field: 'username', title: '缩略图(点击图片可查看)',templet:function (p){return getPicture(p.username);} }
-                    ,{field: 'sign', title: '产品类别'}
-                    ,{field: 'sign', title: '是否推荐',templet:function (p){return getStatus(p.sign);}}
-                    ,{field: 'experience', title: '是否热门',templet:function (p){return getStatus1(p.sign);}}
-                    ,{field: 'experience', title: '是否显示',templet:function (p){return getStatus2(p.sign);}}
-                    ,{field: 'right', title: '操作',width:'250',toolbar: '#barDemo' }
+                    {field: 'p_id', title: 'ID',  sort: true, fixed: 'left'}
+                    ,{field: 'p_name', title: '产品名称'}
+                    ,{field: 'p_desc', title: '产品简介'}
+                    ,{field: 'p_icon', title: '缩略图(点击图片可查看)',templet:function (p){return getPicture(p.p_icon);} }
+                    ,{field: 'c_name', title: '产品类别'}
+                    ,{field: 'is_hot', title: '是否热门',templet:function (p){return getStatus(p);}}
+                    ,{field: 'is_new', title: '是否新品',templet:function (p){return getStatus1(p);}}
+                    ,{field: 'is_show', title: '是否显示',templet:function (p){return getStatus2(p);}}
+                    ,{field: 'right', title: '操作',width:'200',toolbar: '#barDemo' }
                 ]]
             });
             form.on('switch(sexDemo)', function(obj){
-                console.log(obj.othis);
-                layer.tips(this.value + ' ' + this.name + '：'+ obj.elem.checked, obj.othis);
+                let value = 0;
+                if(obj.elem.checked){
+                    value = 1;
+                }else {
+                    value = 2;
+                }
+                $.post('/productadd/is_hot/'+obj.value,{_token: "<?php echo csrf_token(); ?>",value:value},function(res){
+                    if(res.code===0){
+                        layer.msg(res.msg,{icon:6});
+                    }else{
+                        layer.msg(res.msg,{icon:5});
+                    }
+                })
             });
             form.on('switch(sexDemo1)', function(obj){
-                console.log(obj.othis);
-                layer.tips(this.value + ' ' + this.name + '：'+ obj.elem.checked, obj.othis);
+                let value = 0;
+                if(obj.elem.checked){
+                    value = 1;
+                }else {
+                    value = 2;
+                }
+                $.post('/productadd/is_new/'+obj.value,{_token: "<?php echo csrf_token(); ?>",value:value},function(res){
+                    if(res.code===0){
+                        layer.msg(res.msg,{icon:6});
+                    }else{
+                        layer.msg(res.msg,{icon:5});
+                    }
+                })
             });
             form.on('switch(sexDemo2)', function(obj){
-                console.log(obj.othis);
-                layer.tips(this.value + ' ' + this.name + '：'+ obj.elem.checked, obj.othis);
+                let value = 0;
+                if(obj.elem.checked){
+                    value = 1;
+                }else {
+                    value = 2;
+                }
+                $.post('/productadd/is_show/'+obj.value,{_token: "<?php echo csrf_token(); ?>",value:value},function(res){
+                    if(res.code===0){
+                        layer.msg(res.msg,{icon:6});
+                    }else{
+                        layer.msg(res.msg,{icon:5});
+                    }
+                })
             });
             //监听工具条
             table.on('tool(test3)', function(obj){
                 var data = obj.data;
                 if(obj.event === 'del'){
-                    layer.confirm('真的删除行么', function(index){
-                        obj.del();
+                    layer.confirm('真的删除该产品吗？', function(index){
+                        $.post('/productadd/'+data.p_id,{_method:'delete','_token': "<?php echo csrf_token(); ?>"},function(res){
+                            if(res.code===0){
+                                obj.del();
+                                layer.msg(res.msg,{icon:6});
+                            }else{
+                                layer.msg(res.msg,{icon:5});
+                            }
+                        });
                         layer.close(index);
                     });
                 } else if(obj.event === 'edit'){
@@ -127,40 +166,29 @@
             }
             return str;
         }
-        function getStatus(status){
-            if (status===1){
-                var str = ' <input type="checkbox" name="sex" value="'+status+'" checked lay-skin="switch" lay-text="是|否" lay-filter="sexDemo"/>';
+        function getStatus(p){
+            if (p.is_hot===1){
+                var str = ' <input type="checkbox" name="sex" value="'+p.p_id+'" checked lay-skin="switch" lay-text="是|否" lay-filter="sexDemo"/>';
             } else {
-                var str = ' <input type="checkbox" name="sex" value="'+status+'"  lay-skin="switch" lay-text="是|否" lay-filter="sexDemo"/>';
+                var str = ' <input type="checkbox" name="sex" value="'+p.p_id+'"  lay-skin="switch" lay-text="是|否" lay-filter="sexDemo"/>';
             }
             return str;
         }
-        function getStatus1(status){
-            if (status===1){
-                var str = ' <input type="checkbox" name="sex" value="'+status+'" checked lay-skin="switch" lay-text="是|否" lay-filter="sexDemo1"/>';
+        function getStatus1(p){
+            if (p.is_new===1){
+                var str = ' <input type="checkbox" name="sex" value="'+p.p_id+'" checked lay-skin="switch" lay-text="是|否" lay-filter="sexDemo1"/>';
             } else {
-                var str = ' <input type="checkbox" name="sex" value="'+status+'"  lay-skin="switch" lay-text="是|否" lay-filter="sexDemo1"/>';
+                var str = ' <input type="checkbox" name="sex" value="'+p.p_id+'"  lay-skin="switch" lay-text="是|否" lay-filter="sexDemo1"/>';
             }
             return str;
         }
-        function getStatus2(status){
-            if (status===1){
-                var str = ' <input type="checkbox" name="sex" value="'+status+'" checked lay-skin="switch" lay-text="是|否" lay-filter="sexDemo2"/>';
+        function getStatus2(p){
+            if (p.is_show===1){
+                var str = ' <input type="checkbox" name="sex" value="'+p.p_id+'" checked lay-skin="switch" lay-text="是|否" lay-filter="sexDemo2"/>';
             } else {
-                var str = ' <input type="checkbox" name="sex" value="'+status+'"  lay-skin="switch" lay-text="是|否" lay-filter="sexDemo2"/>';
+                var str = ' <input type="checkbox" name="sex" value="'+p.p_id+'"  lay-skin="switch" lay-text="是|否" lay-filter="sexDemo2"/>';
             }
             return str;
-        }
-        function edit() {
-            window.location.href = "/news_edit";
-        }
-        // 查看
-        function see() {
-            window.location.href = "/productadd/show";
-        }
-        // 置顶
-        function tops() {
-
         }
 
     </script>

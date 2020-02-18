@@ -56,36 +56,48 @@
             //第一个实例
             table.render({
                 elem: '#test'
-                ,url: 'http://www.model.com/test.json' //数据接口
+                ,url: '/api/aftersell_list' //数据接口
                 ,toolbar:'#toolbarDemo'
                 ,defaultToolbar: ['', '', '']
                 ,page:{theme: '#1E9FFF'}
                 ,id:'#test3'
                 ,cols: [[ //表头
-                    {field: 'id', title: 'ID',  sort: true}
-                    ,{field: 'sex', title: '订单号'}
-                    ,{field: 'city', title: '申请人'}
-                    ,{field: 'experience', title: '售后原因',sort: true}
-                    ,{field: 'sign', title: '故障图(点击图片可查看)',templet:function (p){return getPicture(p);}}
-                    ,{field: 'experience', title: '售后类型'}
-                    ,{field: 'experience', title: '是否过保',templet:function (p){return p.sign===1?'是':'否';}}
-                    ,{field: 'experience', title: '维修金额'}
-                    ,{field: 'experience', title: '是否同意',templet:function (p){return getStatus(p);}}
-                    ,{field: 'experience', title: '是否付款',templet:function (p){return p.sign===1?'是':'否';}}
-                    ,{field: 'experience', title: '快递单号'}
-                    ,{field: 'sign', title: '申请时间',sort: true}
+                    {field: 'af_id', title: 'ID',  sort: true}
+                    ,{field: 'o_number', title: '订单号'}
+                    ,{field: 'user_name', title: '申请人'}
+                    ,{field: 'af_type', title: '售后类型',templet:function (p){return p.af_type===1?'换货':'维修';}}
+                    ,{field: 'af_img', title: '故障图(点击图片可查看)',templet:function (p){return getPicture(p);}}
+                    ,{field: 'af_reason', title: '申请原因'}
+                    ,{field: 'is_time', title: '是否过保',templet:function (p){return p.sign===1?'是':'否';}}
+                    ,{field: 'af_money', title: '维修金额'}
+                    ,{field: 'is_agree', title: '是否同意',templet:function (p){return getStatus(p);}}
+                    ,{field: 'is_pay', title: '是否付款',templet:function (p){return p.is_pay===1?'是':'否';}}
+                    ,{field: 'express_number', title: '快递单号'}
+                    ,{field: 'af_time', title: '申请时间',sort: true}
                     ,{field: 'right', title: '操作',toolbar: '#barDemo' }
                 ]]
             });
             //监听开关操作
             form.on('switch(sexDemo)', function(obj){
-                layer.tips(this.value + ' ' + this.name + '：'+ obj.elem.checked, obj.othis);
+                let value = 0;
+                if(obj.elem.checked){
+                    value = 1;
+                }else {
+                    value = 2;
+                }
+                $.post('/after_sell/is_agree/'+obj.value,{_token: "<?php echo csrf_token(); ?>",value:value},function(res){
+                    if(res.code===0){
+                        layer.msg(res.msg,{icon:6});
+                    }else{
+                        layer.msg(res.msg,{icon:5});
+                    }
+                })
             });
             //监听工具条
             table.on('tool(test3)', function(obj){
                 var data = obj.data;
               if(obj.event === 'send'){
-                  if(data.sign!==1){
+                  if(data.is_pay!==1){
                       layer.alert('已付款后再进行发货操作！！');
                       return;
                   }
@@ -113,6 +125,7 @@
                 });
             })
         }
+        //该方法有问题待解决
         function getPicture(p){
             var str ="";
             if(p.sign!=null&&p.sign!=""){
@@ -122,10 +135,10 @@
         return str;
     }
         function getStatus(p){
-            if (p.sign===1&&p.experience!==''){
-                var str = ' <input type="checkbox" name="is_show" disabled value="'+p.sign+'" checked lay-skin="switch" lay-text="是|否" lay-filter="sexDemo"/>';
+            if (p.is_agree===1){
+                var str = ' <input type="checkbox" name="is_show"  value="'+p.af_id+'" checked lay-skin="switch" lay-text="是|否" lay-filter="sexDemo"/>';
             } else {
-                var str = ' <input type="checkbox" name="is_show" value="'+p.sign+'"  lay-skin="switch" lay-text="是|否" lay-filter="sexDemo"/>';
+                var str = ' <input type="checkbox" name="is_show" value="'+p.af_id+'"  lay-skin="switch" lay-text="是|否" lay-filter="sexDemo"/>';
             }
             return str;
         }
