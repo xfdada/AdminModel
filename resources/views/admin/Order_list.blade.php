@@ -25,15 +25,21 @@
             <div class="card">
                 <div class="card-header">订单列表</div>
                 <div class="card-body">
-                    <table class="layui-hide" id="test" lay-filter="test3"></table>
-                    <script type="text/html" id="toolbarDemo">
-                        <div class="input-group" style="width: 50%">
-                            <input type="text" class="form-control" style="border-color: #0f0f0f;" placeholder="搜索关键词">
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-primary" type="button">搜索</button>
+                    <form class="layui-form" action="">
+                        <div class="layui-form-item">
+                            <div class="layui-input-inline">
+                                <input type="text" name="o_number"  placeholder="请输入要搜索的订单号" autocomplete="off" class="layui-input">
                             </div>
+                            <div class="layui-input-inline">
+                                <input type="text" name="start_time"placeholder="请选择开始时间" id="dtest1" class="layui-input"/>
+                            </div>
+                            <div class="layui-input-inline">
+                                <input type="text" name="end_time"placeholder="请选择结束时间" id="dtest2" class="layui-input"/>
+                            </div>
+                            <button class="layui-btn" id="search" lay-submit lay-filter="searche_btn">搜索</button>
                         </div>
-                    </script>
+                    </form>
+                    <table class="layui-hide" id="test" lay-filter="test3" lay-data="{id: 'idTest'}"></table>
                     <script type="text/html" id="barDemo">
                         <a style="color: #fff;" class="layui-btn layui-btn-xs layui-btn-normal" lay-event="show">查看</a>
                         <a style="color: #fff;"  class="layui-btn layui-btn-xs layui-btn-normal" lay-event="edit">发货</a>
@@ -48,17 +54,43 @@
 @section('script')
     <script>
 
-        layui.use('table', function(){
+        layui.use(['table','laydate'], function(){
             var table = layui.table;
             var form = layui.form;
+            var laydate = layui.laydate;
+
+            form.on('submit(searche_btn)', function (data) {
+                /**
+                 * 数据表格的重载功能
+                 */
+                table.reload('idTest', {
+                    method: 'get'
+                    , where: {
+                        o_number: data.field['o_number'] ,// 添加查询的参数
+                        start_time: data.field['start_time'] ,// 添加查询的参数
+                        end_time: data.field['end_time'] ,
+                    }
+                    , page: {
+                        curr: 1 // 重载后从第一页开始
+                    }
+                });
+                return false;  // 阻止submit的表单提交
+            });
+            //第一个实例
+            laydate.render({
+                elem: '#dtest1'
+            });
+            laydate.render({
+                elem: '#dtest2'
+                ,max: 0
+            });
             //第一个实例
             table.render({
                 elem: '#test'
                 ,url: '/api/order_list' //数据接口
-                ,toolbar:'#toolbarDemo'
                 ,defaultToolbar: ['', '', '']
                 ,page:{theme: '#1E9FFF'}
-                ,id:'#test3'
+                ,id:'idTest'
                 ,cols: [[ //表头
                     {field: 'o_id', title: 'ID',  sort: true}
                     ,{field: 'o_number', title: '订单号'}

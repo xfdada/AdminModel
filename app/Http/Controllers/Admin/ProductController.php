@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Model\Category;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\Product;
@@ -15,16 +16,47 @@ class ProductController extends Controller
     }
     //显示添加页面
     public function create(){
-        return view('admin.Productadd');
+        $cate = new Category();
+        $list = $cate->getTree();
+        $data = [];
+        foreach ($list as $v){
+            $v->c_name = str_repeat('- ', $v->level).$v->c_name;
+            $data[] = $v;
+        }
+        return view('admin.Productadd',compact('data'));
     }
     //显示详情
     public function show(){
        return view('admin.Productshow');
     }
+    public function edit($id){
+        $product = new Product();
+        $cate = new Category();
+        $list = $cate->getTree();
+        $data = [];
+        foreach ($list as $v){
+            $v->c_name = str_repeat('- ', $v->level).$v->c_name;
+            $data[] = $v;
+        }
+        $res = $product->edit($id);
+        if(!$res){
+            return view('error');
+        }
+        return view('admin.Productedit',compact('res','data'));
+    }
+
+
+    public function update(Request $request,$id){
+        $product = new Product();
+        $data = $request->all();
+        return $product->updates($id,$data['data']);
+    }
+
     //产品添加 存储到数据库
     public function store(Request $request){
         $product = new Product();
-        $file = $request->all();
+        $file = $request->input('data');
+        return $product->saves($file);
         dd($file);
     }
     public function destroy ($id){
@@ -40,6 +72,11 @@ class ProductController extends Controller
         $value = $request->input('value',1);
         $product = new Product();
         return $product->is_hot($id,$value);
+    }
+    public function is_stop(Request $request,$id){
+        $value = $request->input('value',1);
+        $product = new Product();
+        return $product->is_stop($id,$value);
     }
     public function is_new(Request $request,$id){
         $value = $request->input('value',1);

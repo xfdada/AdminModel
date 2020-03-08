@@ -12,7 +12,7 @@ MySQL - 5.7.26 : Database - lenkeng
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-CREATE DATABASE /*!32312 IF NOT EXISTS*/`lenkeng` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/`lenkeng` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci */;
 
 USE `lenkeng`;
 
@@ -49,9 +49,11 @@ CREATE TABLE `lk_admin` (
   `a_count` int(10) DEFAULT NULL COMMENT '登录次数',
   `a_time` timestamp NULL DEFAULT NULL COMMENT '最后登录时间',
   PRIMARY KEY (`a_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='管理员表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='管理员表';
 
 /*Data for the table `lk_admin` */
+
+insert  into `lk_admin`(`a_id`,`a_name`,`a_pwd`,`a_count`,`a_time`) values (1,'李兴','131413251',1,'2020-02-18 17:14:37');
 
 /*Table structure for table `lk_aftersell` */
 
@@ -61,19 +63,22 @@ CREATE TABLE `lk_aftersell` (
   `af_id` int(10) NOT NULL AUTO_INCREMENT,
   `user_id` int(10) DEFAULT NULL COMMENT '用户id',
   `o_number` varchar(20) DEFAULT NULL COMMENT '订单号',
+  `p_id` int(10) DEFAULT NULL COMMENT '产品id',
   `af_type` tinyint(1) DEFAULT NULL COMMENT '售后类型 1换货 2维修',
   `af_reason` varchar(500) DEFAULT NULL COMMENT '原因',
   `af_img` varchar(500) DEFAULT NULL COMMENT '售后图',
   `is_agree` tinyint(1) DEFAULT '2' COMMENT '是否同意',
-  `is_time` tinyint(1) DEFAULT NULL COMMENT '是否质保时间内 1是 2否',
+  `is_time` tinyint(1) DEFAULT '1' COMMENT '是否质保时间内 1是 2否',
   `af_money` decimal(10,3) DEFAULT NULL COMMENT '维修金额',
   `is_pay` tinyint(1) DEFAULT NULL COMMENT '是否付款 1是 2否',
   `express_number` varchar(20) DEFAULT NULL COMMENT '快递单号',
   `af_time` timestamp NULL DEFAULT NULL COMMENT '申请时间',
   PRIMARY KEY (`af_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='售后表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='售后表';
 
 /*Data for the table `lk_aftersell` */
+
+insert  into `lk_aftersell`(`af_id`,`user_id`,`o_number`,`p_id`,`af_type`,`af_reason`,`af_img`,`is_agree`,`is_time`,`af_money`,`is_pay`,`express_number`,`af_time`) values (1,1,'LK201455445',2,1,'黑屏',NULL,2,1,'10.000',1,NULL,'2020-02-18 16:37:48');
 
 /*Table structure for table `lk_agent` */
 
@@ -104,7 +109,7 @@ CREATE TABLE `lk_banner` (
 
 /*Data for the table `lk_banner` */
 
-insert  into `lk_banner`(`ba_id`,`ba_urls`,`ba_href`,`ba_desc`,`ba_time`,`ba_index`) values (2,'http://www.model.com/product/20200119/2020-01-195e23bdd5c7f38.jpg','/news/172','大师傅大师傅','2020-01-19 10:24:24',1),(3,'http://www.model.com/product/20200119/2020-01-195e23c315412f8.png','/bonih/jis','ces展会地址图','2020-01-19 10:46:47',0);
+insert  into `lk_banner`(`ba_id`,`ba_urls`,`ba_href`,`ba_desc`,`ba_time`,`ba_index`) values (2,'http://www.model.com/product/20200119/2020-01-195e23bdd5c7f38.jpg','/news/172','大师傅大师傅','2020-01-19 10:24:24',1),(3,'http://www.model.com/product/20200119/2020-01-195e23c315412f8.png','/bonih/jis','ces展会地址图','2020-01-19 10:46:47',3);
 
 /*Table structure for table `lk_book` */
 
@@ -146,11 +151,14 @@ DROP TABLE IF EXISTS `lk_category`;
 CREATE TABLE `lk_category` (
   `c_id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'id',
   `c_name` varchar(100) DEFAULT NULL COMMENT '类别名称',
+  `c_pid` int(10) DEFAULT '0' COMMENT '上级分类',
   `c_time` timestamp NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`c_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='产品类别表';
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COMMENT='产品类别表';
 
 /*Data for the table `lk_category` */
+
+insert  into `lk_category`(`c_id`,`c_name`,`c_pid`,`c_time`) values (1,'延长器',0,NULL),(2,'手机延长器',1,NULL),(3,'电视延长器',1,NULL),(4,'手机视频延长器',2,NULL),(5,'视频转接器',0,NULL),(6,'无线视频转接器',5,NULL),(7,'手机无线延长器',2,NULL),(9,'手机',0,'2020-02-17 17:23:55'),(10,'手机无线延长器',9,'2020-02-17 18:08:37'),(11,'电视无线延长器',9,'2020-02-17 18:09:16');
 
 /*Table structure for table `lk_comment` */
 
@@ -169,9 +177,11 @@ CREATE TABLE `lk_comment` (
   `is_show` tinyint(1) DEFAULT '1' COMMENT '是否显示 1是 2否',
   `cm_score` tinyint(1) DEFAULT NULL COMMENT '评分 1~5之间',
   PRIMARY KEY (`cm_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商品评论表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='商品评论表';
 
 /*Data for the table `lk_comment` */
+
+insert  into `lk_comment`(`cm_id`,`user_id`,`p_id`,`o_number`,`cm_content`,`cm_img`,`cm_time`,`cm_replay`,`re_time`,`is_show`,`cm_score`) values (1,1,2,'LK2022445','hahahahhaa',NULL,'2020-02-18 11:54:43','感谢您对本产品的支持','2020-02-18 15:41:24',1,5);
 
 /*Table structure for table `lk_data` */
 
@@ -284,9 +294,11 @@ CREATE TABLE `lk_pay` (
   `pay_time` timestamp NULL DEFAULT NULL COMMENT '生成时间',
   `success_time` timestamp NULL DEFAULT NULL COMMENT '支付时间',
   PRIMARY KEY (`pay_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='支付表';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='支付表';
 
 /*Data for the table `lk_pay` */
+
+insert  into `lk_pay`(`pay_id`,`pay_money`,`pay_order`,`pay_type`,`is_pay`,`pay_time`,`success_time`) values (1,'42.00','LK26555','2',2,'2020-02-20 22:06:18','2020-02-26 22:06:15'),(2,'78.00','LK52125','1',1,'2020-02-26 22:06:46','2020-02-26 22:06:13');
 
 /*Table structure for table `lk_product` */
 
@@ -299,17 +311,39 @@ CREATE TABLE `lk_product` (
   `p_icon` varchar(100) DEFAULT NULL COMMENT '产品缩略图',
   `p_img` varchar(600) DEFAULT NULL COMMENT '产品轮播图',
   `p_desc` varchar(255) DEFAULT NULL COMMENT '产品简介',
+  `price` decimal(10,3) DEFAULT NULL COMMENT '原价',
+  `now_price` decimal(10,3) DEFAULT NULL COMMENT '当前价格',
   `is_hot` tinyint(1) DEFAULT '1' COMMENT '是否热门 1是 2否',
   `is_new` tinyint(1) DEFAULT '1' COMMENT '是否新品 1是 2否',
+  `is_stop` tinyint(1) DEFAULT '2' COMMENT '是否停产 1是 2否',
   `is_show` tinyint(1) DEFAULT '1' COMMENT '是否显示 1是 2否',
   `p_detail` longtext COMMENT '产品详情',
   `p_params` longtext COMMENT '产品参数',
   `p_pack` longtext COMMENT '包装售后',
   `p_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '添加时间',
   PRIMARY KEY (`p_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='产品表';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='产品表';
 
 /*Data for the table `lk_product` */
+
+insert  into `lk_product`(`p_id`,`p_name`,`c_id`,`p_icon`,`p_img`,`p_desc`,`price`,`now_price`,`is_hot`,`is_new`,`is_stop`,`is_show`,`p_detail`,`p_params`,`p_pack`,`p_time`) values (2,'手机无线延长器',2,NULL,NULL,'这是一张手机无线投屏器',NULL,NULL,1,1,2,1,NULL,NULL,NULL,'2020-02-24 11:22:35'),(3,'LK683',3,NULL,NULL,'这是一款无线路由器',NULL,NULL,1,1,2,1,'<p>这是路由器码</p>','<p>这是连衣裙</p>','<p>这是包装</p>','2020-02-26 21:57:43');
+
+/*Table structure for table `lk_question` */
+
+DROP TABLE IF EXISTS `lk_question`;
+
+CREATE TABLE `lk_question` (
+  `q_id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `p_id` int(10) DEFAULT NULL COMMENT '所属产品',
+  `q_title` varchar(255) DEFAULT NULL COMMENT '产品常见问题',
+  `q_answer` longtext COMMENT '解决方法',
+  `q_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '添加时间',
+  PRIMARY KEY (`q_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+
+/*Data for the table `lk_question` */
+
+insert  into `lk_question`(`q_id`,`p_id`,`q_title`,`q_answer`,`q_time`) values (2,2,'手机如何连接改无线连接器','<p>阿斯顿和平分散和哦豁迪欧更好地给拿了快递费年后is</p><p><br/></p><p>大大<br/></p>','2020-02-28 19:50:24');
 
 /*Table structure for table `lk_refund` */
 
@@ -328,9 +362,11 @@ CREATE TABLE `lk_refund` (
   `is_sure` tinyint(1) DEFAULT '2' COMMENT '是否确认退款 1是 2否',
   `operate_admin` int(10) DEFAULT NULL COMMENT '操作员id',
   PRIMARY KEY (`re_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='退货表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='退货表';
 
 /*Data for the table `lk_refund` */
+
+insert  into `lk_refund`(`re_id`,`user_id`,`o_number`,`re_number`,`re_reason`,`re_product`,`re_money`,`re_time`,`is_agree`,`is_sure`,`operate_admin`) values (1,1,'LK201255','RE20201625','不想买了',NULL,'10.000','2020-02-18 17:03:27',1,2,1);
 
 /*Table structure for table `lk_resource` */
 
@@ -349,7 +385,7 @@ CREATE TABLE `lk_resource` (
 
 /*Data for the table `lk_resource` */
 
-insert  into `lk_resource`(`r_id`,`r_name`,`r_url`,`pr_id`,`is_down`,`r_time`,`r_count`) values (2,'lk20155454升级包','http://www.model.com/resource/20200116/2020-01-165e2015e83a598.zip',4,1,'2020-01-16 15:51:06',NULL);
+insert  into `lk_resource`(`r_id`,`r_name`,`r_url`,`pr_id`,`is_down`,`r_time`,`r_count`) values (2,'lk20155454升级包','http://www.model.com/resource/20200116/2020-01-165e2015e83a598.zip',4,2,'2020-01-16 15:51:06',NULL);
 
 /*Table structure for table `lk_user` */
 

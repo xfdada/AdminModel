@@ -6,6 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" type="text/css" href="https://www.layuicdn.com/layui/css/layui.css" />
     <script src="{{asset('js/jquery.min.js')}}"></script>
+    <style>
+        input::-webkit-input-placeholder{position:relative;left:10px;}
+        input::-ms-input-placeholder{position:relative;left:10px;}
+    </style>
 </head>
 <body>
 <form class="layui-form" action="" method="post" style="margin: 20px 10px;">

@@ -50,12 +50,57 @@ class User extends Model
         return false;
     }
 
-    public function getList($page,$limit){
+    public function getList($page,$limit,$data){
 //
         $start = ($page-1)*$limit;
-        $data = DB::table('user') ->orderBy('crate_time','desc')->offset($start)->limit($limit)->get();
-        $count = DB::table('user')->count('user_id');
-        return ['count'=>$count,'code'=>0,'data'=>$data,'msg'=>''];
+        if($data['params']!=''&&$data['start_time']!=''&&$data['end_time']!=''){
+            $end =date("Y-m-d H:i:s",strtotime($data['end_time'])+86400) ;
+
+            $datas = DB::table('user') ->whereRaw("concat(`user_name`,`email`,`phone`) like '%".$data['params']."%'")
+                ->whereBetween('crate_time',[$data['start_time'],$end])
+                ->orderBy('crate_time','desc')->offset($start)->limit($limit)->get();
+            $count = DB::table('user') ->whereRaw("concat(`user_name`,`email`,`phone`) like '%".$data['params']."%'")
+                ->whereBetween('crate_time',[$data['start_time'],$end])->count('user_id');
+        }elseif ($data['params']!=''&&$data['start_time']!=''&&$data['end_time']==''){
+
+            $datas = DB::table('user') ->whereRaw("concat(`user_name`,`email`,`phone`) like '%".$data['params']."%'")
+                ->where('crate_time','>=',$data['start_time'])
+                ->orderBy('crate_time','desc')->offset($start)->limit($limit)->get();
+            $count = DB::table('user') ->whereRaw("concat(`user_name`,`email`,`phone`) like '%".$data['params']."%'")
+                ->where('crate_time','>=',$data['start_time'])->count('user_id');
+        }elseif ($data['params']!=''&&$data['start_time']==''&&$data['end_time']!=''){
+            $end =date("Y-m-d H:i:s",strtotime($data['end_time'])+86400) ;
+            $datas = DB::table('user') ->whereRaw("concat(`user_name`,`email`,`phone`) like '%".$data['params']."%'")
+                ->where('crate_time','=<',$end)
+                ->orderBy('crate_time','desc')->offset($start)->limit($limit)->get();
+            $count = DB::table('user') ->whereRaw("concat(`user_name`,`email`,`phone`) like '%".$data['params']."%'")
+                ->where('crate_time','=<',$end)->count('user_id');
+        }elseif ($data['params']!=''&&$data['start_time']==''&&$data['end_time']==''){
+            $datas = DB::table('user') ->whereRaw("concat(`user_name`,`email`,`phone`) like '%".$data['params']."%'")
+              ->orderBy('crate_time','desc')->offset($start)->limit($limit)->get();
+            $count = DB::table('user') ->whereRaw("concat(`user_name`,`email`,`phone`) like '%".$data['params']."%'")
+              ->count('user_id');
+        }elseif ($data['params']==''&&$data['start_time']!=''&&$data['end_time']!=''){
+            $end =date("Y-m-d H:i:s",strtotime($data['end_time'])+86400) ;
+            $datas = DB::table('user') ->whereBetween('crate_time',[$data['start_time'],$end])
+                ->orderBy('crate_time','desc')->offset($start)->limit($limit)->get();
+            $count = DB::table('user') ->whereBetween('crate_time',[$data['start_time'],$end])->count('user_id');
+        }elseif ($data['params']==''&&$data['start_time']!=''&&$data['end_time']==''){
+            $datas = DB::table('user') ->where('crate_time','>=',$data['start_time'])
+                ->orderBy('crate_time','desc')->offset($start)->limit($limit)->get();
+            $count = DB::table('user')->where('crate_time','>=',$data['start_time'])->count('user_id');
+        }elseif ($data['params']==''&&$data['start_time']==''&&$data['end_time']!=''){
+            $end =date("Y-m-d H:i:s",strtotime($data['end_time'])+86400) ;
+
+            $datas = DB::table('user') ->where('crate_time','<=',$end)
+                ->orderBy('crate_time','desc')->offset($start)->limit($limit)->get();
+            $count = DB::table('user')->where('crate_time','<=',$end)->count('user_id');
+        }else{
+            $datas = DB::table('user') ->orderBy('crate_time','desc')->offset($start)->limit($limit)->get();
+            $count = DB::table('user')->count('user_id');
+        }
+
+        return ['count'=>$count,'code'=>0,'data'=>$datas,'msg'=>''];
     }
 
     public function deletes($id){

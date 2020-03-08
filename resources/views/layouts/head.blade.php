@@ -102,6 +102,8 @@
                     <ul class="sidebar-submenu">
                         <li><a href="/refund"><i class="zmdi zmdi-long-arrow-right"></i>退款列表</a></li>
                         <li><a href="/after_sell"><i class="zmdi zmdi-long-arrow-right"></i>售后列表</a></li>
+                        <li><a href="/after_sell"><i class="zmdi zmdi-long-arrow-right"></i>保修查询</a></li>
+                        <li><a href="/question"><i class="zmdi zmdi-long-arrow-right"></i>产品问题解答</a></li>
                     </ul>
                 </li>
                 <li>

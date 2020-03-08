@@ -48,36 +48,43 @@ class Refund extends Model
         return false;
     }
 
-    public function getList($page,$limit){
+    public function getList($page,$limit,$data){
 //
+        $where = [];
         $start = ($page-1)*$limit;
-        $data = DB::table('refund') ->orderBy('re_time','desc')->offset($start)->limit($limit)->get();
-        $count = DB::table('refund')->count('re_id');
+        if($data['o_number']!=''){
+            $where[] = ['o_number','like','%'.$data['o_number'].'%'];
+        }
+        if($data['is_agree']!=''){
+            $where['is_agree']= intval($data['is_agree']);
+        }
+        $datas = DB::table('refund') ->where($where)->orderBy('re_time','desc')->offset($start)->limit($limit)->get();
+        $count = DB::table('refund')->where($where)->count('re_id');
         $user = DB::table('user')->get(['user_id','user_name']);
         $product = DB::table('product')->get(['p_id','p_name']);
         $admin = DB::table('admin')->get(['a_id','a_name']);
         foreach ($user as $u){
-            foreach ($data as $d){
+            foreach ($datas as $d){
                 if ($u->user_id==$d->user_id){
                     $d->user_name = $u->user_name;
                 }
             }
         }
 //        foreach ($product as $u){
-//            foreach ($data as $d){
+//            foreach ($datas as $d){
 //                if ($u->p_id==$d->p_id){
 //                    $d->p_name = $u->p_name;
 //                }
 //            }
 //        }
-        foreach ($data as $u){
+        foreach ($datas as $u){
             foreach ($admin as $d){
                 if ($u->operate_admin==$d->a_id){
                     $u->a_name = $d->a_name;
                 }
             }
         }
-        return ['count'=>$count,'code'=>0,'data'=>$data,'msg'=>''];
+        return ['count'=>$count,'code'=>0,'data'=>$datas,'msg'=>''];
     }
 
     public function deletes($id){

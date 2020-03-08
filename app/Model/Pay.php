@@ -1,5 +1,8 @@
 <?php
 
+
+
+// 该模型现在存在问题，还未确定有哪些字段。
 namespace App\Model;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -53,22 +56,22 @@ class Pay extends Model
         $start = ($page-1)*$limit;
         $data = DB::table('pay') ->orderBy('pay_time','desc')->offset($start)->limit($limit)->get();
         $count = DB::table('pay')->count('pay_id');
-        $user = DB::table('user')->get(['user_id','user_name']);
-        $product = DB::table('product')->get(['p_id','p_name']);
-        foreach ($user as $u){
-            foreach ($data as $d){
-                if ($u->user_id==$d->user_id){
-                    $d->user_name = $u->user_name;
-                }
-            }
-        }
-        foreach ($product as $u){
-            foreach ($data as $d){
-                if ($u->p_id==$d->p_id){
-                    $d->p_name = $u->p_name;
-                }
-            }
-        }
+//        $user = DB::table('user')->get(['user_id','user_name']);
+//        $product = DB::table('product')->get(['p_id','p_name']);
+//        foreach ($user as $u){
+//            foreach ($data as $d){
+//                if ($u->user_id==$d->user_id){
+//                    $d->user_name = $u->user_name;
+//                }
+//            }
+//        }
+//        foreach ($product as $u){
+//            foreach ($data as $d){
+//                if ($u->p_id==$d->p_id){
+//                    $d->p_name = $u->p_name;
+//                }
+//            }
+//        }
         return ['count'=>$count,'code'=>0,'data'=>$data,'msg'=>''];
     }
 

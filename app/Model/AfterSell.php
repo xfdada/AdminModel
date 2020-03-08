@@ -48,28 +48,35 @@ class AfterSell extends Model
         return false;
     }
 
-    public function getList($page,$limit){
+    public function getList($page,$limit,$data){
 //
+        $where = [];
         $start = ($page-1)*$limit;
-        $data = DB::table('aftersell') ->orderBy('af_time','desc')->offset($start)->limit($limit)->get();
-        $count = DB::table('aftersell')->count('af_id');
+        if($data['o_number']!=''){
+            $where[] = ['o_number','like','%'.$data['o_number'].'%'];
+        }
+        if($data['af_type']!=''){
+            $where['af_type']= intval($data['af_type']);
+        }
+        $datas = DB::table('aftersell')->where($where) ->orderBy('af_time','desc')->offset($start)->limit($limit)->get();
+        $count = DB::table('aftersell')->where($where)->count('af_id');
         $user = DB::table('user')->get(['user_id','user_name']);
         $product = DB::table('product')->get(['p_id','p_name']);
         foreach ($user as $u){
-            foreach ($data as $d){
+            foreach ($datas as $d){
                 if ($u->user_id==$d->user_id){
                     $d->user_name = $u->user_name;
                 }
             }
         }
         foreach ($product as $u){
-            foreach ($data as $d){
+            foreach ($datas as $d){
                 if ($u->p_id==$d->p_id){
                     $d->p_name = $u->p_name;
                 }
             }
         }
-        return ['count'=>$count,'code'=>0,'data'=>$data,'msg'=>''];
+        return ['count'=>$count,'code'=>0,'data'=>$datas,'msg'=>''];
     }
 
     public function deletes($id){

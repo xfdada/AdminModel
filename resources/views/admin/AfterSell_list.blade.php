@@ -24,15 +24,24 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <table class="layui-hide" id="test" lay-filter="test3"></table>
-                    <script type="text/html" id="toolbarDemo">
-                        <div class="input-group" style="width: 50%">
-                            <input type="text" class="form-control" style="border-color: #0f0f0f;" placeholder="搜索关键词">
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-primary" type="button">搜索</button>
+                    <form class="layui-form" action="">
+                        <div class="layui-form-item">
+                            <div class="layui-input-inline">
+                                <input type="text" name="o_number"  placeholder="请输入要搜索的订单号" autocomplete="off" class="layui-input">
                             </div>
+                            <div class="layui-inline">
+                                <div class="layui-input-inline">
+                                    <select name="af_type">
+                                        <option value="">请选择售后类型</option>
+                                        <option value="1">换货</option>
+                                        <option value="2">维修</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button class="layui-btn" id="search" lay-submit lay-filter="searche_btn">搜索</button>
                         </div>
-                    </script>
+                    </form>
+                    <table class="layui-hide" id="test" lay-filter="test3" lay-data="{id: 'idTest'}"></table>
                     <script type="text/html" id="barDemo">
                         <a style="color: #fff;" class="layui-btn layui-btn-xs layui-btn-normal" lay-event="send">发货</a>
                     </script>
@@ -42,25 +51,46 @@
     </div><!-- End Row-->
         </div>
     </div>
-{{--    <div id="tong" class="hide" style=" display: none;">--}}
-{{--        <img id="tong_img" src="" >--}}
-{{--    </div>--}}
+    <div id="tong" class="hide" style=" display: none;">
+        <img id="tong_img" src="" >
+    </div>
 
 @endsection
 @section('script')
     <script>
         var imgs = new Array();
-        layui.use(['table'], function(){
+        layui.use(['table','laydate'], function(){
             var table = layui.table;
+            var laydate = layui.laydate;
             var form = layui.form;
+            form.on('submit(searche_btn)', function (data) {
+                table.reload('idTest', {
+                    method: 'get'
+                    , where: {
+                        o_number: data.field['o_number'] ,// 添加查询的参数
+                        af_type: data.field['af_type'] ,// 添加查询的参数
+                    }
+                    , page: {
+                        curr: 1 // 重载后从第一页开始
+                    }
+                });
+                return false;  // 阻止submit的表单提交
+            });
             //第一个实例
+            laydate.render({
+                elem: '#dtest1'
+            });
+            laydate.render({
+                elem: '#dtest2'
+                ,max: 0
+            });
             table.render({
                 elem: '#test'
                 ,url: '/api/aftersell_list' //数据接口
                 ,toolbar:'#toolbarDemo'
                 ,defaultToolbar: ['', '', '']
                 ,page:{theme: '#1E9FFF'}
-                ,id:'#test3'
+                ,id:'idTest'
                 ,cols: [[ //表头
                     {field: 'af_id', title: 'ID',  sort: true}
                     ,{field: 'o_number', title: '订单号'}

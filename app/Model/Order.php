@@ -52,15 +52,37 @@ class Order extends Model
         return false;
     }
 
-    public function getList($page,$limit){
+    public function getList($page,$limit,$data){
+        $where = [];
+        if($data['o_number']!=''){
+            $where[]= ['o_number','like', '%'.$data['o_number'].'%'];
+        }
+        if($data['start_time']==''&&$data['end_time']!=''){
+            $end =date("Y-m-d H:i:s",strtotime($data['end_time'])+86400) ;
+            $where[]= ['o_time','<',$end];
+        }
+        if($data['start_time']!=''&&$data['end_time']==''){
+            $where[]= ['o_time','>=',$data['start_time']];
 
+        }
         $start = ($page-1)*$limit;
-        $data = DB::table('order') ->join('user','order.o_id','=','user.user_id')
-            ->join('address','order.addr_id','=','address.addr_id')
-            ->select('order.*', 'user.user_name', 'address.addr_pro', 'address.addr_city', 'address.addr_dist', 'address.addr_detail')
-            ->orderBy('o_time','desc')->offset($start)->limit($limit)->get();
-        $count = DB::table('order')->count('o_id');
-        return ['count'=>$count,'code'=>0,'data'=>$data,'msg'=>''];
+        if($data['start_time']!=''&&$data['end_time']!=''){
+            $time = $data['start_time'];
+            $end =date("Y-m-d H:i:s",strtotime($data['end_time'])+86400) ;
+            $datas = DB::table('order') ->join('user','order.o_id','=','user.user_id')
+                ->join('address','order.addr_id','=','address.addr_id')
+                ->select('order.*', 'user.user_name', 'address.addr_pro', 'address.addr_city', 'address.addr_dist', 'address.addr_detail')->where($where)
+                ->whereBetween('o_time',[$time,$end])->orderBy('o_time','desc')->offset($start)->limit($limit)->get();
+            $count = DB::table('order') ->whereBetween('o_time',[$time,$end])->where($where)->count('o_id');
+        }else{
+            $datas = DB::table('order') ->join('user','order.o_id','=','user.user_id')
+                ->join('address','order.addr_id','=','address.addr_id')
+                ->select('order.*', 'user.user_name', 'address.addr_pro', 'address.addr_city', 'address.addr_dist', 'address.addr_detail')->where($where)
+                ->orderBy('o_time','desc')->offset($start)->limit($limit)->get();
+            $count = DB::table('order')->where($where)->count('o_id');
+        }
+
+        return ['count'=>$count,'code'=>0,'data'=>$datas,'msg'=>''];
     }
 
 

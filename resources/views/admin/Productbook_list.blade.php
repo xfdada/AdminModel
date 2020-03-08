@@ -139,7 +139,7 @@
                     ,area: ['700px', '500px']
                     ,title: '说明书上传'
                     ,shade: 0.6 //遮罩透明度
-                    ,content: '/books/create'
+                    ,content: '/video'
 
                 });
             });

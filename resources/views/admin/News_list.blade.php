@@ -28,15 +28,31 @@
             <div class="card">
                 <div class="card-header">新闻列表</div>
                     <div class="card-body">
-                        <table class="layui-hide" id="test" lay-filter="test3" lay-data="{id: 'idTest'}"></table>
-                        <script type="text/html" id="toolbarDemo">
-                            <div class="input-group" style="width: 50%">
-                                <input type="text" class="form-control" style="border-color: #0f0f0f;" placeholder="搜索关键词">
-                                <div class="input-group-append">
-                                    <button class="btn btn-outline-primary" type="button">搜索</button>
+                        <form class="layui-form" action="">
+                            <div class="layui-form-item">
+                                <div class="layui-input-inline">
+                                    <input type="text" name="n_title"  placeholder="请输入要搜索新闻的标题" autocomplete="off" class="layui-input">
                                 </div>
+                                <div class="layui-inline">
+                                    <div class="layui-input-inline">
+                                        <select name="n_type">
+                                            <option value="">请选择新闻类型</option>
+                                            <option value="1">新产品新闻</option>
+                                            <option value="2">行业新闻</option>
+                                            <option value="3">企业新闻</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="start_time"placeholder="请选择开始时间" id="dtest1" class="layui-input"/>
+                                </div>
+                                <div class="layui-input-inline">
+                                    <input type="text" name="end_time"placeholder="请选择结束时间" id="dtest2" class="layui-input"/>
+                                </div>
+                            <button class="layui-btn" id="search" lay-submit lay-filter="searche_btn">搜索</button>
                             </div>
-                        </script>
+                        </form>
+                        <table class="layui-hide" id="test" lay-filter="test" lay-data="{id: 'idTest'}"></table>
                         <script type="text/html" id="barDemo">
                             <a style="color: #fff;" class="layui-btn layui-btn-xs layui-btn-normal" lay-event="show">查看</a>
                             <a style="color: #fff;"  class="layui-btn layui-btn-xs layui-btn-normal" lay-event="edit">编辑</a>
@@ -66,17 +82,44 @@
     <script>
 
 
-        layui.use('table', function(){
+        layui.use(['table','laydate'], function(){
             var table = layui.table;
             var form = layui.form;
+            var laydate = layui.laydate;
+
+
+            form.on('submit(searche_btn)', function (data) {
+                /**
+                 * 数据表格的重载功能
+                 */
+                table.reload('idTest', {
+                    method: 'get'
+                    , where: {
+                        n_title: data.field['n_title'] ,// 添加查询的参数
+                        n_type:data.field['n_type'] ,// 添加查询的参数
+                        start_time: data.field['start_time'] ,// 添加查询的参数
+                        end_time: data.field['end_time'] ,
+                    }
+                    , page: {
+                        curr: 1 // 重载后从第一页开始
+                    }
+                });
+                return false;  // 阻止submit的表单提交
+            });
             //第一个实例
+            laydate.render({
+                elem: '#dtest1'
+            });
+            laydate.render({
+                elem: '#dtest2'
+                ,max: 0
+            });
             var tableIns =table.render({
                 elem: '#test'
                 ,url: '/api/news_list' //数据接口
-                ,toolbar:'#toolbarDemo'
                 ,defaultToolbar: ['', '', '']
                 ,page:{theme: '#1E9FFF'}
-                ,id:'#test3'
+                ,id:'idTest'
                 ,cols: [[ //表头
                     {field: 'n_id', title: 'ID',  sort: true}
                     ,{field: 'n_title', title: '文章标题'}
@@ -106,7 +149,7 @@
                 })
             });
             //监听工具条
-            table.on('tool(test3)', function(obj){
+            table.on('tool(test)', function(obj){
                 var data = obj.data;
                 if(obj.event === 'del'){
                     layer.confirm('真的删除行么', function(index){

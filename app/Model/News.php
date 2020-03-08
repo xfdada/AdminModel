@@ -52,11 +52,36 @@ class News extends Model
         return false;
     }
 
-    public function getList($page,$limit){
+    public function getList($page,$limit,$data){
 //
         $start = ($page-1)*$limit;
-        $data = DB::table('news') ->orderBy('n_time','desc')->offset($start)->limit($limit)->get();
-        $count = DB::table('news')->count('n_id');
+        $where =[];
+        if($data['n_type']!=''){
+            $where['n_type']= intval($data['n_type']);
+        }
+        if($data['n_title']!=''){
+            $where[]= ['n_title','like', '%'.$data['n_title'].'%'];
+        }
+
+        if($data['start_time']==''&&$data['end_time']!=''){
+           $end =date("Y-m-d H:i:s",strtotime($data['end_time'])+86400) ;
+            $where[]= ['n_time','<',$end];
+        }
+        if($data['start_time']!=''&&$data['end_time']==''){
+            $where[]= ['n_time','>=',$data['start_time']];
+
+        }
+        if($data['start_time']!=''&&$data['end_time']!=''){
+           $time = $data['start_time'];
+            $end =date("Y-m-d H:i:s",strtotime($data['end_time'])+86400) ;
+            $data = DB::table('news') ->where($where)->whereBetween('n_time',[$data['start_time'],$end])->orderBy('n_time','desc')->offset($start)->limit($limit)->get();
+            $count = DB::table('news')->where($where)->whereBetween('n_time',[$time,$end])->count('n_id');
+
+        }else{
+            $data = DB::table('news') ->where($where)->orderBy('n_time','desc')->offset($start)->limit($limit)->get();
+            $count = DB::table('news')->where($where)->count('n_id');
+        }
+
         return ['count'=>$count,'code'=>0,'data'=>$data,'msg'=>''];
     }
 
