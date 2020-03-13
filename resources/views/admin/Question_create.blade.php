@@ -76,7 +76,7 @@
         var $ = layui.jquery,upload = layui.upload;
         var form = layui.form,layer = layui.layer;
         form.on('submit(demo1)', function(data){
-            $.post('/question',{_token: '{!! csrf_token() !!}',data:data.field},function(res){
+            $.post('/my_admin/question',{_token: '{!! csrf_token() !!}',data:data.field},function(res){
                 if(res.code===0){
                     var index = parent.layer.getFrameIndex(window.name);
                     layer.msg(res.msg,{icon:6});

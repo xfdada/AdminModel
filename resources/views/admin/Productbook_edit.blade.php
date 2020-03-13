@@ -20,15 +20,10 @@
         <label class="layui-form-label">产品型号</label>
         <div class="layui-input-inline">
             <select name="pr_id" lay-verify="required" lay-search="">
-                <option value="{{$res->pr_id}}">直接选择或搜索选择</option>
-                <option value="1">layer</option>
-                <option value="2">form</option>
-                <option value="3">layim</option>
-                <option value="4">element</option>
-                <option value="5">laytpl</option>
-                <option value="6">upload</option>
-                <option value="7">laydate</option>
-                <option value="8">laypage</option>
+                <option value="0">直接选择或搜索选择</option>
+                @foreach( $product as $v)
+                <option value="{{$v->p_id}}" @if($v->p_id==$res->pr_id) selected  @endif>{{$v->p_name}}</option>
+                    @endforeach
             </select>
         </div>
     </div>
@@ -53,7 +48,7 @@
         var form = layui.form;
         //监听提交
         form.on('submit(demo1)', function(data){
-            $.post('/books/{{$res->b_id}}',{_token: '{!! csrf_token() !!}',data:data.field,_method:'put'},function(res){
+            $.post('/my_admin/books/{{$res->b_id}}',{_token: '{!! csrf_token() !!}',data:data.field,_method:'put'},function(res){
                 if(res.code===0){
                     var index = parent.layer.getFrameIndex(window.name);
                     layer.msg(res.msg,{icon:6});
@@ -70,7 +65,7 @@
         var $ = layui.jquery,upload = layui.upload;
         upload.render({ //允许上传的文件后缀
             elem: '#test3'
-            ,url: '/book/upload'
+            ,url: '/my_admin/book/upload'
             ,accept: 'file' //普通文件
             ,exts: 'pdf|doc|txt' //只允许上传压缩文件
             ,done: function(res){

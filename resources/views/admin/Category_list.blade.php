@@ -39,7 +39,7 @@
             //第一个实例
             table.render({
                 elem: '#test'
-                ,url: '/api/category_list' //数据接口
+                ,url: '/my_admin/api/category_list' //数据接口
                 ,defaultToolbar: ['', '', '']
                 ,page:{theme: '#1E9FFF'}
                 ,id:'#test3'
@@ -56,7 +56,7 @@
                 var data = obj.data;
                 if(obj.event === 'del'){
                     layer.confirm('真的删除该类别吗', function(index){
-                        $.post('/category/'+data.c_id,{_token: '{!! csrf_token() !!}',_method:'delete'},function (res) {
+                        $.post('/my_admin/category/'+data.c_id,{_token: '{!! csrf_token() !!}',_method:'delete'},function (res) {
                             if(res.code===0){
                                 obj.del();
                                 layer.msg(res.msg,{icon:6});
@@ -71,7 +71,7 @@
                         type:2,
                         area: ['600px','400px'],
                         title:'编辑类别',
-                        content: '/category/'+data.c_id+'/edit'
+                        content: '/my_admin/category/'+data.c_id+'/edit'
 
                     });
                 }
@@ -84,7 +84,7 @@
                     type: 2,
                     title: '添加类别',
                     area: ['600px','400px'],
-                    content: '/category/create'
+                    content: '/my_admin/category/create'
                 });
             })
         }

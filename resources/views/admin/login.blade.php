@@ -90,7 +90,7 @@
   <script src="{{asset('/js/bootstrap.min.js')}}"></script>
 <script>
     function change(){
-        $("#code").attr('src','/login/captcha/'+Math.random());
+        $("#code").attr('src','/my_admin/login/captcha/'+Math.random());
     }
 </script>
 </body>

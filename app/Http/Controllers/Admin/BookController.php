@@ -33,10 +33,11 @@ class BookController extends Controller
 
     public function edit($id){
         $res = $this->book->edit($id);
+        $product = DB::table('product')->select(['p_id','p_name'])->get();
         if(!$res){
             return view('error');
         }
-        return view('admin.Productbook_edit',compact('res'));
+        return view('admin.Productbook_edit',compact('res','product'));
     }
 
     public function update(Request $request,$id){

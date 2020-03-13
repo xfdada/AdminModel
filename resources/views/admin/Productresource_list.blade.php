@@ -80,7 +80,7 @@
             //第一个实例
             table.render({
                 elem: '#test'
-                ,url: '/api/res_list' //数据接口
+                ,url: '/my_admin/api/res_list' //数据接口
                 ,page:{theme: '#1E9FFF'}
                 ,id:'idTest'
                 ,cols: [[ //表头
@@ -100,7 +100,7 @@
                 }else {
                     value = 2;
                 }
-                $.post('/res/is_show/'+obj.value,{_token: "{!! csrf_token() !!}",value:value},function(res){
+                $.post('/my_admin/res/is_show/'+obj.value,{_token: "{!! csrf_token() !!}",value:value},function(res){
                     if(res.code===0){
                         layer.msg(res.msg,{icon:6});
                     }else{
@@ -113,7 +113,7 @@
                 var data = obj.data;
                 if(obj.event === 'del'){
                     layer.confirm('真的删除行么', function(index){
-                        $.post('/resources/'+data.r_id,{_method:'delete','_token': "{!! csrf_token() !!}"},function(res){
+                        $.post('/my_admin/resources/'+data.r_id,{_method:'delete','_token': "{!! csrf_token() !!}"},function(res){
                             if(res.code===0){
                                 obj.del();
                                 layer.msg(res.msg,{icon:6});
@@ -129,7 +129,7 @@
                         ,area: ['700px', '400px']
                         ,title: '固件资源编辑'
                         ,shade: 0.6 //遮罩透明度
-                        ,content: '/resources/create'
+                        ,content: '/my_admin/resources/'+data.r_id+'/edit'
 
                     });
                 }
@@ -150,7 +150,7 @@
                     ,area: ['600px', '500px']
                     ,title: '说明书上传'
                     ,shade: 0.6 //遮罩透明度
-                    ,content: '/resources/create'
+                    ,content: '/my_admin/resources/create'
 
                 });
             });

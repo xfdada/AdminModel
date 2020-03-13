@@ -82,7 +82,7 @@
             //第一个实例
             table.render({
                 elem: '#test'
-                ,url: '/api/question_list' //数据接口
+                ,url: '/my_admin/api/question_list' //数据接口
                 ,page:{theme: '#1E9FFF'}
                 ,id:'idTest'
                 ,cols: [[ //表头
@@ -99,7 +99,7 @@
                 var data = obj.data;
               if(obj.event === 'del'){
                   layer.confirm('真的删除该条数据吗', function(index){
-                      $.post('/question/'+data.q_id,{_method:'delete','_token': "{!! csrf_token() !!}"},function(res){
+                      $.post('/my_admin/question/'+data.q_id,{_method:'delete','_token': "{!! csrf_token() !!}"},function(res){
                           if(res.code===0){
                               obj.del();
                               layer.msg(res.msg,{icon:6});
@@ -115,7 +115,7 @@
                       ,area: ['700px', '400px']
                       ,title: '产品答疑编辑'
                       ,shade: 0.6 //遮罩透明度
-                      ,content: '/question/'+data.q_id+'/edit'
+                      ,content: '/my_admin/question/'+data.q_id+'/edit'
 
                   });
                 }
@@ -131,7 +131,7 @@
                     type: 2,
                     title: '查看解决方法',
                     area: ['600px','400px'],
-                    content: '/question/'+id
+                    content: '/my_admin/question/'+id
                 });
             })
     }
@@ -141,7 +141,7 @@
                 type: 2,
                 title: '添加答疑',
                 area: ['800px','400px'],
-                content: '/question/create'
+                content: '/my_admin/question/create'
             });
         })
     }

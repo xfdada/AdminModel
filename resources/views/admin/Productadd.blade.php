@@ -1,6 +1,6 @@
 ﻿@extends('layouts.head')
 
-@section('title', '添加新闻')
+@section('title', '添加产品')
 @section('keyword', '管理系统后台')
 @section('content')
     <style>
@@ -167,7 +167,7 @@
             var $ = layui.jquery,upload = layui.upload;
             var form = layui.form,layer = layui.layer;
             form.on('submit(demo1)', function(data){
-                $.post('/productadd',{_token: '{!! csrf_token() !!}',data:data.field},function(res){
+                $.post('/my_admin/productadd',{_token: '{!! csrf_token() !!}',data:data.field},function(res){
                     if(res.code===0){
                         var index = parent.layer.getFrameIndex(window.name);
                         layer.msg(res.msg,{icon:6});
@@ -183,7 +183,7 @@
             //普通图片上传
             var uploadInst = upload.render({
                 elem: '#test1'
-                ,url: '/product/upload'
+                ,url: '/my_admin/product/upload'
                 ,before: function(obj){
                     //预读本地文件示例，不支持ie8
                     obj.preview(function(index, file, result){
@@ -210,7 +210,7 @@
             //多图片上传
             upload.render({
                 elem: '#test2'
-                ,url: '/product/upload'
+                ,url: '/my_admin/product/upload'
                 ,multiple: true
                 ,before: function(obj){
                     //预读本地文件示例，不支持ie8

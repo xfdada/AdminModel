@@ -116,7 +116,7 @@
             });
             var tableIns =table.render({
                 elem: '#test'
-                ,url: '/api/news_list' //数据接口
+                ,url: '/my_admin/api/news_list' //数据接口
                 ,defaultToolbar: ['', '', '']
                 ,page:{theme: '#1E9FFF'}
                 ,id:'idTest'
@@ -140,7 +140,7 @@
                 }else {
                     value = 2;
                 }
-                $.post('/news/is_show/'+obj.value,{_token: "{!! csrf_token() !!}",value:value},function(res){
+                $.post('/my_admin/news/is_show/'+obj.value,{_token: "{!! csrf_token() !!}",value:value},function(res){
                     if(res.code===0){
                         layer.msg(res.msg,{icon:6});
                     }else{
@@ -153,7 +153,7 @@
                 var data = obj.data;
                 if(obj.event === 'del'){
                     layer.confirm('真的删除行么', function(index){
-                        $.post('/news/'+data.n_id,{_method:'delete','_token': "{!! csrf_token() !!}"},function(res){
+                        $.post('/my_admin/news/'+data.n_id,{_method:'delete','_token': "{!! csrf_token() !!}"},function(res){
                             if(res.code===0){
                                 obj.del();
                                 layer.msg(res.msg,{icon:6});
@@ -168,10 +168,10 @@
                             type:2,
                             area: ['800px','700px'],
                             title:'编辑新闻',
-                            content: '/news/'+data.n_id+'/edit'
+                            content: '/my_admin/news/'+data.n_id+'/edit'
                         })
                 }else if(obj.event ==='top'){
-                    $.get('/news/top/'+data.n_id,function(res){
+                    $.get('/my_admin/news/top/'+data.n_id,function(res){
                         if(res.code===0){
                             layer.msg(res.msg,{icon:6});
                             setTimeout(function () {
@@ -183,7 +183,7 @@
                     });
 
                 } else if(obj.event ==='no_top'){
-                    $.get('/news/no_top/'+data.n_id,function(res){
+                    $.get('/my_admin/news/no_top/'+data.n_id,function(res){
                         if(res.code===0){
                             layer.msg(res.msg,{icon:6});
                             setTimeout(function () {

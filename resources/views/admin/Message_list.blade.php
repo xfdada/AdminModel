@@ -48,7 +48,7 @@
             //第一个实例
             table.render({
                 elem: '#test'
-                ,url: '/api/message_list' //数据接口
+                ,url: '/my_admin/api/message_list' //数据接口
                 ,page:{theme: '#1E9FFF'}
                 ,id:'#test3'
                 ,cols: [[ //表头
@@ -66,7 +66,7 @@
             table.on('edit(test3)', function(obj){
                 var value = obj.value //得到修改后的值
                     ,data = obj.data ;//得到所在行所有键值
-                $.post('/message/replay/'+data.m_id,{replay:value,'_token': "{!! csrf_token() !!}"},function(res){
+                $.post('/my_admin/message/replay/'+data.m_id,{replay:value,'_token': "{!! csrf_token() !!}"},function(res){
                     if (res.code===5){
                         layer.msg(res.msg,{icon:5});
                     } else{
@@ -83,7 +83,7 @@
                 }else {
                     value = 2;
                 }
-                $.post('/message/is_show/'+obj.value,{_token: "{!! csrf_token() !!}",value:value},function(res){
+                $.post('/my_admin/message/is_show/'+obj.value,{_token: "{!! csrf_token() !!}",value:value},function(res){
                     if(res.code===0){
                         layer.msg(res.msg,{icon:6});
                     }else{

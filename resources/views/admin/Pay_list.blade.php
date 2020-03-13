@@ -83,7 +83,7 @@
             //第一个实例
             table.render({
                 elem: '#test'
-                ,url: '/api/pay_list' //数据接口
+                ,url: '/my_admin/api/pay_list' //数据接口
                 ,toolbar:'#toolbarDemo'
                 ,defaultToolbar: ['', '', '']
                 ,page:{theme: '#1E9FFF'}

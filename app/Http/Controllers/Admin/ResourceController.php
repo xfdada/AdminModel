@@ -30,11 +30,12 @@ class ResourceController extends Controller
         return $this->Res->saves($file);
     }
     public function edit($id){
+        $product = DB::table('product')->select(['p_id','p_name'])->get();
         $res = $this->Res->edit($id);
         if(!$res){
             return view('error');
         }
-        return view('admin.Productresource_edit',compact('res'));
+        return view('admin.Productresource_edit',compact('res','product'));
     }
 
     public function update(Request $request,$id){

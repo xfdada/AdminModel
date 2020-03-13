@@ -45,7 +45,7 @@
         var form = layui.form;
         //监听提交
         form.on('submit(demo1)', function(data){
-            $.post('/resources',{_token: '{!! csrf_token() !!}',data:data.field},function(res){
+            $.post('/my_admin/resources',{_token: '{!! csrf_token() !!}',data:data.field},function(res){
                 if(res.code===0){
                     var index = parent.layer.getFrameIndex(window.name);
                     layer.msg(res.msg,{icon:6});
@@ -62,7 +62,7 @@
         var $ = layui.jquery,upload = layui.upload;
         upload.render({ //允许上传的文件后缀
             elem: '#test3'
-            ,url: '/resource/upload'
+            ,url: '/my_admin/resource/upload'
             ,accept: 'file' //普通文件
             ,exts: '7z|zip|rar|tar' //只允许上传压缩文件
             ,done: function(res){

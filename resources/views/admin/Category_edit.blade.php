@@ -40,7 +40,7 @@
         var form = layui.form;
         //监听提交
         form.on('submit(demo1)', function(data){
-            $.post('/category/{{$res->c_id}}',{_token: '{!! csrf_token() !!}',data:data.field,_method:'put'},function(res){
+            $.post('/my_admin/category/{{$res->c_id}}',{_token: '{!! csrf_token() !!}',data:data.field,_method:'put'},function(res){
                 if(res.code===0){
                     var index = parent.layer.getFrameIndex(window.name);
                     layer.msg(res.msg,{icon:6});

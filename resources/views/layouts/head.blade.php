@@ -61,8 +61,8 @@
                         <i class="zmdi zmdi-view-dashboard"></i> <span>新闻管理</span><i class="fa fa-angle-left pull-right"></i>
                     </a>
                     <ul class="sidebar-submenu">
-                        <li><a href="/news/create"><i class="zmdi zmdi-long-arrow-right"></i>添加新闻</a></li>
-                        <li><a href="/news"><i class="zmdi zmdi-long-arrow-right"></i>新闻列表</a></li>
+                        <li><a href="/my_admin/news/create"><i class="zmdi zmdi-long-arrow-right"></i>添加新闻</a></li>
+                        <li><a href="/my_admin/news"><i class="zmdi zmdi-long-arrow-right"></i>新闻列表</a></li>
                     </ul>
                 </li>
                 <li>
@@ -70,7 +70,7 @@
                         <i class="zmdi zmdi-view-dashboard"></i> <span>用户管理</span><i class="fa fa-angle-left pull-right"></i>
                     </a>
                     <ul class="sidebar-submenu">
-                        <li><a href="/user"><i class="zmdi zmdi-long-arrow-right"></i>用户列表</a></li>
+                        <li><a href="/my_admin/user"><i class="zmdi zmdi-long-arrow-right"></i>用户列表</a></li>
                     </ul>
                 </li>
                 <li>
@@ -79,9 +79,9 @@
                         <span>产品管理</span> <i class="fa fa-angle-left pull-right"></i>
                     </a>
                     <ul class="sidebar-submenu">
-                        <li><a href="/category"><i class="zmdi zmdi-long-arrow-right"></i> 类别管理</a></li>
-                        <li><a href="/productadd/create"><i class="zmdi zmdi-long-arrow-right"></i>添加产品</a></li>
-                        <li><a href="/productadd"><i class="zmdi zmdi-long-arrow-right"></i> 产品列表</a></li>
+                        <li><a href="/my_admin/category"><i class="zmdi zmdi-long-arrow-right"></i> 类别管理</a></li>
+                        <li><a href="/my_admin/productadd/create"><i class="zmdi zmdi-long-arrow-right"></i>添加产品</a></li>
+                        <li><a href="/my_admin/productadd"><i class="zmdi zmdi-long-arrow-right"></i> 产品列表</a></li>
                     </ul>
                 </li>
                 <li>
@@ -90,8 +90,8 @@
                         <span>订单管理</span> <i class="fa fa-angle-left pull-right"></i>
                     </a>
                     <ul class="sidebar-submenu">
-                        <li><a href="/order"><i class="zmdi zmdi-long-arrow-right"></i>订单列表</a></li>
-                        <li><a href="/pay"><i class="zmdi zmdi-long-arrow-right"></i>支付列表</a></li>
+                        <li><a href="/my_admin/order"><i class="zmdi zmdi-long-arrow-right"></i>订单列表</a></li>
+                        <li><a href="/my_admin/pay"><i class="zmdi zmdi-long-arrow-right"></i>支付列表</a></li>
                     </ul>
                 </li>
                 <li>
@@ -100,10 +100,10 @@
                         <span>售后管理</span> <i class="fa fa-angle-left pull-right"></i>
                     </a>
                     <ul class="sidebar-submenu">
-                        <li><a href="/refund"><i class="zmdi zmdi-long-arrow-right"></i>退款列表</a></li>
-                        <li><a href="/after_sell"><i class="zmdi zmdi-long-arrow-right"></i>售后列表</a></li>
-                        <li><a href="/after_sell"><i class="zmdi zmdi-long-arrow-right"></i>保修查询</a></li>
-                        <li><a href="/question"><i class="zmdi zmdi-long-arrow-right"></i>产品问题解答</a></li>
+                        <li><a href="/my_admin/refund"><i class="zmdi zmdi-long-arrow-right"></i>退款列表</a></li>
+                        <li><a href="/my_admin/after_sell"><i class="zmdi zmdi-long-arrow-right"></i>售后列表</a></li>
+                        <li><a href="/my_admin/after_sell"><i class="zmdi zmdi-long-arrow-right"></i>保修查询</a></li>
+                        <li><a href="/my_admin/question"><i class="zmdi zmdi-long-arrow-right"></i>产品问题解答</a></li>
                     </ul>
                 </li>
                 <li>
@@ -111,8 +111,8 @@
                         <i class="zmdi zmdi-card-travel"></i><span>资源管理</span><i class="fa fa-angle-left pull-right"></i>
                     </a>
                     <ul class="sidebar-submenu">
-                        <li><a href="/books"><i class="zmdi zmdi-long-arrow-right"></i>说明书管理</a></li>
-                        <li><a href="/resources"><i class="zmdi zmdi-long-arrow-right"></i>固件管理</a></li>
+                        <li><a href="/my_admin/books"><i class="zmdi zmdi-long-arrow-right"></i>说明书管理</a></li>
+                        <li><a href="/my_admin/resources"><i class="zmdi zmdi-long-arrow-right"></i>固件管理</a></li>
                     </ul>
                 </li>
                 <li>
@@ -121,8 +121,8 @@
                         <i class="fa fa-angle-left float-right"></i>
                     </a>
                     <ul class="sidebar-submenu">
-                        <li><a href="/message"><i class="zmdi zmdi-long-arrow-right"></i> 留言列表</a></li>
-                        <li><a href="/comment"><i class="zmdi zmdi-long-arrow-right"></i>评论列表</a></li>
+                        <li><a href="/my_admin/message"><i class="zmdi zmdi-long-arrow-right"></i> 留言列表</a></li>
+                        <li><a href="/my_admin/comment"><i class="zmdi zmdi-long-arrow-right"></i>评论列表</a></li>
                     </ul>
                 </li>
                 <li>
@@ -131,7 +131,7 @@
                         <i class="fa fa-angle-left float-right"></i>
                     </a>
                     <ul class="sidebar-submenu">
-                        <li><a href="/banner"><i class="zmdi zmdi-long-arrow-right"></i>轮播图管理</a></li>
+                        <li><a href="/my_admin/banner"><i class="zmdi zmdi-long-arrow-right"></i>轮播图管理</a></li>
                         <li><a href="1"><i class="zmdi zmdi-long-arrow-right"></i>新产品推荐</a></li>
                     </ul>
                 </li>

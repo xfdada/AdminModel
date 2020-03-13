@@ -87,7 +87,7 @@
             //第一个实例
             table.render({
                 elem: '#test'
-                ,url: '/api/order_list' //数据接口
+                ,url: '/my_admin/api/order_list' //数据接口
                 ,defaultToolbar: ['', '', '']
                 ,page:{theme: '#1E9FFF'}
                 ,id:'idTest'

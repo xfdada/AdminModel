@@ -82,7 +82,7 @@
             });
             table.render({
                 elem: '#test'
-                ,url: '/api/refund_list' //数据接口
+                ,url: '/my_admin/api/refund_list' //数据接口
                 ,toolbar:'#toolbarDemo'
                 ,defaultToolbar: ['', '', '']
                 ,page:{theme: '#1E9FFF'}
@@ -109,7 +109,7 @@
                 }else {
                     value = 2;
                 }
-                $.post('/refund/is_agree/'+obj.value,{_token: "{!! csrf_token() !!}",value:value},function(res){
+                $.post('/my_admin/refund/is_agree/'+obj.value,{_token: "{!! csrf_token() !!}",value:value},function(res){
                     if(res.code===0){
                         layer.msg(res.msg,{icon:6});
                     }else{

@@ -83,7 +83,7 @@
             var upload = layui.upload;
             //监听提交
             form.on('submit(demo1)', function(data){
-               $.post('/news/{{$res->n_id}}',{data:data.field, '_token': "{!! csrf_token() !!}",_method:'put'},function(res){
+               $.post('/my_admin/my_admin/news/{{$res->n_id}}',{data:data.field, '_token': "{!! csrf_token() !!}",_method:'put'},function(res){
                   if (res.code!==0){
                       layer.msg(res.msg, {icon: 4});
                       return;
@@ -103,7 +103,7 @@
             //普通图片上传
             var uploadInst = upload.render({
                 elem: '#test1'
-                ,url: '/product/upload'
+                ,url: '/my_admin/my_admin/product/upload'
                 ,before: function(obj){
                     //预读本地文件示例，不支持ie8
                     obj.preview(function(index, file, result){

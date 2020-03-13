@@ -12,7 +12,7 @@
        <label class="layui-form-label">名称</label>
         <div class="layui-input-block">
             <input type="text" hidden name="r_url" id="resource_url">
-            <input type="text" name="r_name" lay-verify="required" autocomplete="off" required placeholder="请输入固件名称" class="layui-input">
+            <input type="text" name="r_name" value="{{$res->r_name}}" lay-verify="required" autocomplete="off" required placeholder="请输入固件名称" class="layui-input">
          </div>
          </div>
     <div class="layui-inline" style="margin-bottom: 20px">
@@ -20,14 +20,9 @@
         <div class="layui-input-inline">
             <select name="pr_id" lay-verify="required" lay-search="">
                 <option value="">直接选择或搜索选择</option>
-                <option value="1">layer</option>
-                <option value="2">form</option>
-                <option value="3">layim</option>
-                <option value="4">element</option>
-                <option value="5">laytpl</option>
-                <option value="6">upload</option>
-                <option value="7">laydate</option>
-                <option value="8">laypage</option>
+                @foreach( $product as $v)
+                    <option value="{{$v->p_id}}" @if($v->p_id==$res->pr_id) selected  @endif>{{$v->p_name}}</option>
+                @endforeach
             </select>
         </div>
     </div>
@@ -45,9 +40,16 @@
         var form = layui.form;
         //监听提交
         form.on('submit(demo1)', function(data){
-            layer.alert(JSON.stringify(data.field), {
-                title: '最终的提交信息'
-            })
+            $.post('/my_admin/resources/{{$res->r_id}}',{_token: '{!! csrf_token() !!}',data:data.field,_method:'put'},function(res){
+                if(res.code===0){
+                    var index = parent.layer.getFrameIndex(window.name);
+                    layer.msg(res.msg,{icon:6});
+                    parent.layer.close(index);
+                    parent.location.reload();
+                }else{
+                    layer.msg(res.msg,{icon:5});
+                }
+            });
             return false;
         });
 
@@ -55,7 +57,7 @@
         var $ = layui.jquery,upload = layui.upload;
         upload.render({ //允许上传的文件后缀
             elem: '#test3'
-            ,url: '/resource/upload'
+            ,url: '/my_admin/resource/upload'
             ,accept: 'file' //普通文件
             ,exts: '7z|zip|rar|tar' //只允许上传压缩文件
             ,done: function(res){

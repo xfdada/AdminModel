@@ -80,7 +80,7 @@
             //第一个实例
             var tableIns =table.render({
                 elem: '#test'
-                ,url: '/api/book_list' //数据接口
+                ,url: '/my_admin/api/book_list' //数据接口
                 ,page:{theme: '#1E9FFF'}
                 ,id:'idTest'
                 ,cols: [[ //表头
@@ -100,7 +100,7 @@
                 }else {
                     value = 2;
                 }
-                $.post('/books/is_show/'+obj.value,{_token: "{!! csrf_token() !!}",value:value},function(res){
+                $.post('/my_admin/books/is_show/'+obj.value,{_token: "{!! csrf_token() !!}",value:value},function(res){
                     if(res.code===0){
                         layer.msg(res.msg,{icon:6});
                     }else{
@@ -121,7 +121,7 @@
                 var data = obj.data;
                 if(obj.event === 'del'){
                     layer.confirm('真的删除行么', function(index){
-                        $.post('/books/'+data.b_id,{_method:'delete','_token': "{!! csrf_token() !!}"},function(res){
+                        $.post('/my_admin/books/'+data.b_id,{_method:'delete','_token': "{!! csrf_token() !!}"},function(res){
                             if(res.code===0){
                                 obj.del();
                                 layer.msg(res.msg,{icon:6});
@@ -137,7 +137,7 @@
                         ,area: ['700px', '400px']
                         ,title: '说明书编辑'
                         ,shade: 0.6 //遮罩透明度
-                        ,content: '/books/'+data.b_id+'/edit'
+                        ,content: '/my_admin/books/'+data.b_id+'/edit'
 
                     });
                 }
@@ -159,7 +159,7 @@
                     ,area: ['700px', '500px']
                     ,title: '说明书上传'
                     ,shade: 0.6 //遮罩透明度
-                    ,content: '/video'
+                    ,content: '/my_admin/video'
 
                 });
             });

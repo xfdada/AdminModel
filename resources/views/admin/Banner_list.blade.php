@@ -48,7 +48,7 @@
             //第一个实例
             table.render({
                 elem: '#test'
-                ,url: '/api/banner_list' //数据接口
+                ,url: '/my_admin/api/banner_list' //数据接口
                 ,page:{theme: '#1E9FFF'}
                 ,id:'#test3'
                 ,cols: [[ //表头
@@ -65,7 +65,7 @@
             table.on('edit(test3)', function(obj){
                 var value = obj.value //得到修改后的值
                     ,data = obj.data ;//得到所在行所有键值
-                $.post('/banner/sort/'+data.ba_id,{index:value,'_token': "{!! csrf_token() !!}"},function(res){
+                $.post('/my_admin/banner/sort/'+data.ba_id,{index:value,'_token': "{!! csrf_token() !!}"},function(res){
                     if (res.code===5){
                         layer.msg(res.msg,{icon:5});
                     } else{
@@ -78,7 +78,7 @@
                 var data = obj.data;
               if(obj.event === 'del'){
                   layer.confirm('真的删除行么', function(index){
-                      $.post('/banner/'+data.ba_id,{_method:'delete','_token': "{!! csrf_token() !!}"},function(res){
+                      $.post('/my_admin/banner/'+data.ba_id,{_method:'delete','_token': "{!! csrf_token() !!}"},function(res){
                           if(res.code===0){
                               obj.del();
                               layer.msg(res.msg,{icon:6});
@@ -94,7 +94,7 @@
                       ,area: ['700px', '400px']
                       ,title: '说明书编辑'
                       ,shade: 0.6 //遮罩透明度
-                      ,content: '/banner/'+data.ba_id+'/edit'
+                      ,content: '/my_admin/banner/'+data.ba_id+'/edit'
 
                   });
                 }
@@ -128,7 +128,7 @@
                 type: 2,
                 title: '添加轮播图',
                 area: ['600px','400px'],
-                content: '/banner/create'
+                content: '/my_admin/banner/create'
             });
         })
     }

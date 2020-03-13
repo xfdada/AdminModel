@@ -75,7 +75,7 @@
             //第一个实例
             table.render({
                 elem: '#test'
-                ,url: '/api/user_list' //数据接口
+                ,url: '/my_admin/api/user_list' //数据接口
                 ,toolbar:'#toolbarDemo'
                 ,defaultToolbar: ['', '', '']
                 ,page:{theme: '#1E9FFF'}
@@ -105,7 +105,7 @@
                 }else {
                     value = 1;
                 }
-                $.post('/user/is_show/'+obj.value,{_token: "{!! csrf_token() !!}",value:value},function(res){
+                $.post('/my_admin/user/is_show/'+obj.value,{_token: "{!! csrf_token() !!}",value:value},function(res){
                     if(res.code===0){
                         layer.msg(res.msg,{icon:6});
                     }else{
