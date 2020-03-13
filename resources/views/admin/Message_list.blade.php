@@ -25,14 +25,6 @@
             <div class="card">
                 <div class="card-body">
                     <table class="layui-hide" id="test" lay-filter="test3"></table>
-                    <script type="text/html" id="toolbarDemo">
-                        <div class="input-group" style="width: 50%">
-                            <input type="text" class="form-control" style="border-color: #0f0f0f;" placeholder="搜索关键词">
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-primary" type="button">搜索</button>
-                            </div>
-                        </div>
-                    </script>
                     <script type="text/html" id="barDemo">
                         <a style="color: #fff;" class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
                     </script>
@@ -57,17 +49,15 @@
             table.render({
                 elem: '#test'
                 ,url: '/api/message_list' //数据接口
-                ,toolbar:'#toolbarDemo'
-                ,defaultToolbar: ['', '', '']
                 ,page:{theme: '#1E9FFF'}
                 ,id:'#test3'
                 ,cols: [[ //表头
                     {field: 'm_id', title: 'ID',  sort: true}
                     ,{field: 'user_email', title: '邮箱'}
                     ,{field: 'm_content', title: '留言内容'}
-                    ,{field: 'm_img', title: '留言图片(点击图片可查看)',templet:function (p){return getPicture(p);}}
+                    ,{field: 'm_img', title: '留言图片(点击查看)',templet:function (p){return getPicture(p);}}
                     ,{field: 'm_time', title: '留言时间',sort: true}
-                    ,{field: 'replay', title: '回复(点击表格进行回复)',edit: 'text',sort: true}
+                    ,{field: 'replay', title: '回复(点击回复)',edit: 'text',sort: true}
                     ,{field: 'is_show', title: '是否显示',templet:function (p){return getStatus(p);}}
                     ,{field: 'right', title: '操作',toolbar: '#barDemo' }
                 ]]

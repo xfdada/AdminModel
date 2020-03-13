@@ -48,11 +48,15 @@ class Comment extends Model
         return false;
     }
 
-    public function getList($page,$limit){
+    public function getList($page,$limit,$data){
 //
         $start = ($page-1)*$limit;
-        $data = DB::table('comment') ->orderBy('cm_time','desc')->offset($start)->limit($limit)->get();
-        $count = DB::table('comment')->count('cm_id');
+        $where = [];
+        if($data!=0){
+            $where['p_id'] = $data;
+        }
+        $data = DB::table('comment')->where($where) ->orderBy('cm_time','desc')->offset($start)->limit($limit)->get();
+        $count = DB::table('comment')->where($where)->count('cm_id');
         $user = DB::table('user')->get(['user_id','user_name']);
         $product = DB::table('product')->get(['p_id','p_name']);
         foreach ($user as $u){

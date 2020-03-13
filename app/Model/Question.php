@@ -48,10 +48,19 @@ class Question extends Model
         return false;
     }
 
-    public function getList($page,$limit){
+    public function getList($page,$limit,$data){
         $start = ($page-1)*$limit;
-        $data = DB::table('question') ->join('product', 'question.p_id', '=', 'product.p_id') ->orderBy('q_time','desc')->offset($start)->limit($limit) ->select('question.*', 'product.p_name')->get();
-        $count = DB::table('question')->count('q_id');
+        $where = [];
+        if($data['q_title']!=''&&$data['product']!=0){
+            $where['question.p_id'] = $data['product'];
+            $where[] = ['q_title','like','%'.$data['q_title'].'%'];
+        }elseif ($data['q_title']!=''&&$data['product']==0){
+            $where[] = ['q_title','like','%'.$data['q_title'].'%'];
+        }elseif ($data['q_title']==''&&$data['product']!=0){
+            $where['question.p_id'] = $data['product'];
+        }
+        $data = DB::table('question') ->join('product', 'question.p_id', '=', 'product.p_id')->select('question.*', 'product.p_name') ->where($where)->orderBy('q_time','desc')->offset($start)->limit($limit) ->get();
+        $count = DB::table('question')->where($where)->count('q_id');
         return ['count'=>$count,'code'=>0,'data'=>$data,'msg'=>''];
     }
 

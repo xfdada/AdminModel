@@ -29,15 +29,22 @@
             <div class="card">
                 <div class="card-header"> <button type="button" onclick="uploads()" class="btn btn-outline-primary btn-sm waves-effect waves-light m-1">固件上传</button></div>
                 <div class="card-body">
-                    <table class="layui-hide" id="test" lay-filter="test3"></table>
-                    <script type="text/html" id="toolbarDemo">
-                        <div class="input-group" style="width: 50%">
-                            <input type="text" class="form-control" style="border-color: #0f0f0f;" placeholder="搜索关键词">
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-primary" type="button">搜索</button>
+                    <form class="layui-form" action="">
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <div class="layui-input-inline">
+                                    <select name="product">
+                                        <option value="">请选择产品名称</option>
+                                        @foreach ($product as $v)
+                                            <option value="{{$v->p_id}}">{{$v->p_name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
+                            <button class="layui-btn" id="search" lay-submit lay-filter="searche_btn">搜索</button>
                         </div>
-                    </script>
+                    </form>
+                    <table class="layui-hide" id="test" lay-filter="test3" lay-data="{id: 'idTest'}"></table>
                     <script type="text/html" id="barDemo">
                         <a style="color: #fff;" class="layui-btn layui-btn-xs layui-btn-normal" lay-event="edit">编辑</a>
                         <a style="color: #fff;" class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
@@ -52,21 +59,34 @@
 @section('script')
     <script>
 
-        layui.use('table', function(){
+        layui.use(['table'], function(){
             var table = layui.table;
             var form = layui.form;
+            form.on('submit(searche_btn)', function (data) {
+                /**
+                 * 数据表格的重载功能
+                 */
+                table.reload('idTest', {
+                    method: 'get'
+                    , where: {
+                        product: data.field['product'] ,// 添加查询的参数
+                    }
+                    , page: {
+                        curr: 1 // 重载后从第一页开始
+                    }
+                });
+                return false;  // 阻止submit的表单提交
+            });
             //第一个实例
             table.render({
                 elem: '#test'
                 ,url: '/api/res_list' //数据接口
-                ,toolbar:'#toolbarDemo'
-                ,defaultToolbar: ['', '', '']
                 ,page:{theme: '#1E9FFF'}
-                ,id:'#test3'
+                ,id:'idTest'
                 ,cols: [[ //表头
                     {field: 'r_id', title: 'ID',  sort: true}
                     ,{field: 'r_name', title: '固件名称' }
-                    ,{field: 'pr_id', title: '归属产品'}
+                    ,{field: 'p_name', title: '归属产品'}
                     ,{field: 'r_time', title: '上传时间'}
                     ,{field: 'is_down', title: '是否提供下载',templet:function (p){return getStatus(p);}}
                     ,{field: 'right', title: '操作',toolbar: '#barDemo' }

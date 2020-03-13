@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Model\Resource;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class ResourceController extends Controller
@@ -16,7 +17,8 @@ class ResourceController extends Controller
 
     }
     public function index(){
-        return view('admin.Productresource_list');
+        $product = DB::table('product')->select(['p_id','p_name'])->get();
+        return view('admin.Productresource_list',compact('product'));
     }
     //显示添加页面
     public function create(){

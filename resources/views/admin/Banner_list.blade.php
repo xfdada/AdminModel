@@ -26,14 +26,6 @@
                 <div class="card-header"><button type="button" onclick="uploads()" class="btn btn-outline-primary btn-sm waves-effect waves-light m-1">添加轮播图</button></div>
                 <div class="card-body">
                     <table class="layui-hide" id="test" lay-filter="test3"></table>
-                    <script type="text/html" id="toolbarDemo">
-                        <div class="input-group" style="width: 50%">
-                            <input type="text" class="form-control" style="border-color: #0f0f0f;" placeholder="搜索关键词">
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-primary" type="button">搜索</button>
-                            </div>
-                        </div>
-                    </script>
                     <script type="text/html" id="barDemo">
                         <a style="color: #fff;" class="layui-btn layui-btn-xs layui-btn-normal" lay-event="edit">编辑</a>
                         <a style="color: #fff;" class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
@@ -57,13 +49,11 @@
             table.render({
                 elem: '#test'
                 ,url: '/api/banner_list' //数据接口
-                ,toolbar:'#toolbarDemo'
-                ,defaultToolbar: ['', '', '']
                 ,page:{theme: '#1E9FFF'}
                 ,id:'#test3'
                 ,cols: [[ //表头
                     {field: 'ba_id', title: 'ID',  sort: true}
-                    ,{field: 'ba_urls', title: '缩略图(点击图片可查看)',templet:function (p){return getPicture(p.ba_urls);} }
+                    ,{field: 'ba_urls', title: '缩略图(点击查看)',templet:function (p){return getPicture(p.ba_urls);} }
                     ,{field: 'ba_href', title: '指向url'}
                     ,{field: 'ba_desc', title: '简述'}
                     ,{field: 'ba_time', title: '添加时间'}

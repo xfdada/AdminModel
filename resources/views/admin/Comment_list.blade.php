@@ -1,5 +1,5 @@
 ﻿@extends('layouts.head')
-@section('title', '留言管理')
+@section('title', '评论留言')
 @section('keyword', '管理系统后台')
 @section('content')
     <style>
@@ -11,11 +11,11 @@
         <div class="container-fluid">
             <div class="row pt-2 pb-2">
                 <div class="col-sm-9">
-                    <h4 class="page-title">留言列表</h4>
+                    <h4 class="page-title">评论列表</h4>
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="javaScript:''">首页</a></li>
-                        <li class="breadcrumb-item"><a href="javaScript:''">留言管理</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">留言列表</li>
+                        <li class="breadcrumb-item"><a href="javaScript:''">评论留言</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">评论列表</li>
                     </ol>
                 </div>
             </div>
@@ -24,15 +24,22 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <table class="layui-hide" id="test" lay-filter="test3"></table>
-                    <script type="text/html" id="toolbarDemo">
-                        <div class="input-group" style="width: 50%">
-                            <input type="text" class="form-control" style="border-color: #0f0f0f;" placeholder="搜索关键词">
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-primary" type="button">搜索</button>
+                    <form class="layui-form" action="">
+                        <div class="layui-form-item">
+                            <div class="layui-inline">
+                                <div class="layui-input-inline">
+                                    <select name="product">
+                                        <option value="">请选择产品名称</option>
+                                        @foreach ($product as $v)
+                                            <option value="{{$v->p_id}}">{{$v->p_name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
+                            <button class="layui-btn" id="search" lay-submit lay-filter="searche_btn">搜索</button>
                         </div>
-                    </script>
+                    </form>
+                    <table class="layui-hide" id="test" lay-filter="test3" lay-data="{id: 'idTest'}"></table>
                     <script type="text/html" id="barDemo">
                         <a style="color: #fff;" class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del">删除</a>
                     </script>
@@ -53,22 +60,36 @@
         layui.use(['table'], function(){
             var table = layui.table;
             var form = layui.form;
+            form.on('submit(searche_btn)', function (data) {
+                /**
+                 * 数据表格的重载功能
+                 */
+                table.reload('idTest', {
+                    method: 'get'
+                    , where: {
+                        product: data.field['product'] ,// 添加查询的参数
+                    }
+                    , page: {
+                        curr: 1 // 重载后从第一页开始
+                    }
+                });
+                return false;  // 阻止submit的表单提交
+            });
             //第一个实例
             table.render({
                 elem: '#test'
                 ,url: '/api/comment_list' //数据接口
-                ,toolbar:'#toolbarDemo'
-                ,defaultToolbar: ['', '', '']
                 ,page:{theme: '#1E9FFF'}
-                ,id:'#test3'
+                ,id:'idTest'
                 ,cols: [[ //表头
                     {field: 'cm_id', title: 'ID',  sort: true}
                     ,{field: 'user_name', title: '用户名称'}
                     ,{field: 'p_name', title: '商品名称'}
-                    ,{field: 'cm_img', title: '评价图片(点击图片可查看)',templet:function (p){return getPicture(p);}}
+                    ,{field: 'cm_img', title: '评价图片(点击查看)',templet:function (p){return getPicture(p);}}
                     ,{field: 'cm_content', title: '评价内容'}
                     ,{field: 'cm_time', title: '评价时间',sort: true}
-                    ,{field: 'cm_replay', title: '回复(点击表格进行回复)',edit: 'text'}
+                    ,{field: 'cm_score', title: '评分',sort: true}
+                    ,{field: 'cm_replay', title: '回复(点击回复)',edit: 'text'}
                     ,{field: 'is_show', title: '是否显示',templet:function (p){return getStatus(p);}}
                     ,{field: 'right', title: '操作',toolbar: '#barDemo' }
                 ]]

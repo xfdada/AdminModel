@@ -48,11 +48,15 @@ class Book extends Model
         return false;
     }
 
-    public function getList($page,$limit){
+    public function getList($page,$limit,$list){
 //
         $start = ($page-1)*$limit;
-        $data = DB::table('book') ->orderBy('b_time','desc')->offset($start)->limit($limit)->get();
-        $count = DB::table('book')->count('b_id');
+        $where = [];
+        if($list!=0){
+            $where['book.pr_id'] = $list;
+        }
+        $data = DB::table('book')->join('product', 'book.pr_id', '=', 'product.p_id')->select('book.*', 'product.p_name')->where($where) ->orderBy('b_time','desc')->offset($start)->limit($limit)->get();
+        $count = DB::table('book')->where($where)->count('b_id');
         return ['count'=>$count,'code'=>0,'data'=>$data,'msg'=>''];
     }
 

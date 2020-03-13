@@ -14,7 +14,8 @@ class QuestionController extends Controller
 {
 
     public function index(){
-        return view('admin.Question_list');
+        $product = DB::table('product')->get(['p_id','p_name']);
+        return view('admin.Question_list',compact('product'));
     }
     //显示添加页面
     public function create(){

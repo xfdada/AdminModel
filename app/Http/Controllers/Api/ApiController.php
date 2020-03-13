@@ -60,16 +60,18 @@ class ApiController extends Controller
 
     public function book_list(Request $request){
         $book = new Book();
+        $data = $request->input('product',0);
         $page = $request->input('page',1);
         $limit = $request->input('limit',10);
-        return $book->getList($page,$limit);
+        return $book->getList($page,$limit,$data);
     }
 
     public function res_list(Request $request){
         $res= new Resource();
+        $data = $request->input('product',0);
         $page = $request->input('page',1);
         $limit = $request->input('limit',10);
-        return $res->getList($page,$limit);
+        return $res->getList($page,$limit,$data);
     }
     public function user_list(Request $request){
         $start_time = $request->input('start_time','');
@@ -136,9 +138,10 @@ class ApiController extends Controller
     }
     public function comment_list(Request $request){
         $cm= new Comment();
+        $data = $request->input('product',0);
         $page = $request->input('page',1);
         $limit = $request->input('limit',10);
-        return $cm->getList($page,$limit);
+        return $cm->getList($page,$limit,$data);
     }
     public function aftersell_list(Request $request){
         $af_type = $request->input('af_type','');
@@ -172,8 +175,10 @@ class ApiController extends Controller
     }
     public function question_list(Request $request){
         $pay = new Question();
+        $data['q_title'] = $request->input('q_title','');
+        $data['product'] = $request->input('product',0);
         $page = $request->input('page',1);
         $limit = $request->input('limit',10);
-        return $pay->getList($page,$limit);
+        return $pay->getList($page,$limit,$data);
     }
 }

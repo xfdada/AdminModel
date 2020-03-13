@@ -48,11 +48,16 @@ class Resource extends Model
         return false;
     }
 
-    public function getList($page,$limit){
+    public function getList($page,$limit,$list){
 //
         $start = ($page-1)*$limit;
-        $data = DB::table('resource') ->orderBy('r_time','desc')->offset($start)->limit($limit)->get();
-        $count = DB::table('resource')->count('r_id');
+        $where = [];
+        if($list!=0){
+            $where['resource.pr_id'] = $list;
+        }
+        $data = DB::table('resource')->join('product', 'resource.pr_id', '=', 'product.p_id')->select('resource.*', 'product.p_name')->where($where) ->orderBy('r_time','desc')->offset($start)->limit($limit)->get();
+        $count = DB::table('resource')->where($where)->count('r_id');
+
         return ['count'=>$count,'code'=>0,'data'=>$data,'msg'=>''];
     }
 

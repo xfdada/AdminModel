@@ -57,7 +57,7 @@ class ProductController extends Controller
         $product = new Product();
         $file = $request->input('data');
         return $product->saves($file);
-        dd($file);
+//        dd($file);
     }
     public function destroy ($id){
         $product = new Product();

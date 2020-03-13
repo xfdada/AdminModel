@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\Book;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class BookController extends Controller
@@ -17,7 +18,8 @@ class BookController extends Controller
     }
 
     public function index(){
-        return view('admin.Productbook_list');
+        $product = DB::table('product')->select(['p_id','p_name'])->get();
+        return view('admin.Productbook_list',compact('product'));
     }
     //显示添加页面
     public function create(){

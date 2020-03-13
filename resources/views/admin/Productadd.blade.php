@@ -68,6 +68,18 @@
                                         </select>
                                     </div>
                                 </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">产品原价</label>
+                                        <div class="layui-input-block">
+                                            <input type="text" name="price" lay-verify="required" autocomplete="off" placeholder="请输入产品原价" class="layui-input">
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">产品现价</label>
+                                        <div class="layui-input-block">
+                                            <input type="text" name="now_price" lay-verify="required" autocomplete="off" placeholder="请输入产品现价" class="layui-input">
+                                        </div>
+                                    </div>
                                 <div class="layui-form-item" pane="">
                                     <label class="layui-form-label">是否新品</label>
                                     <div class="layui-input-block">
