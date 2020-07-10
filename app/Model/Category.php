@@ -12,9 +12,11 @@ class Category extends Model
         if($data ==''){
             return ['code'=>5,'msg'=>'所填字段不能为空','data'=>''];
         }
+        $c_level = $this->getLevel($data['c_pid']);
         $datas = [
             'c_name'=>$data['c_name'],
             'c_pid'=>$data['c_pid'],
+            'c_level'=>$c_level,
             'c_time'=>date('Y-m-d H:i:s',time())
         ];
 
@@ -26,9 +28,11 @@ class Category extends Model
     }
 
     public function updates($id,$data){
+        $c_level = $this->getLevel($data['c_pid']);
         $datas = [
             'c_name'=>$data['c_name'],
             'c_pid'=>$data['c_pid'],
+            'c_level'=>$c_level,
         ];
         $res = DB::table('category')->where('c_id',$id)->update($datas);
         if(!$res){
@@ -54,10 +58,13 @@ class Category extends Model
     }
 
     public function getTree(){
-        $data = DB::table('category')->get(['c_id','c_name','c_pid']);
+        $data = DB::table('category')->get(['c_id','c_name','c_pid','c_level']);
         return $this->getSecond($data);
     }
-
+    public function getMenu($c_level=1){
+        $data = DB::table('category')->where('c_level',$c_level)->get(['c_id','c_name','c_pid','c_level']);
+        return $data;
+    }
     public function deletes($id){
         $res = DB::table('category')->where('c_id',$id)->delete();
         if(!$res){
@@ -83,5 +90,17 @@ class Category extends Model
             }
         }
         return $list;
+    }
+
+    //获取级别
+    public function getLevel($pid,$level=1){
+        if ($pid==0){
+            return $level;
+        }
+        $res = DB::table('category')->where('c_id',$pid)->first();
+        if($res->c_pid==0){
+            return $level+1;
+        }
+        return $this->getLevel($res->c_pid,$level+1);
     }
 }

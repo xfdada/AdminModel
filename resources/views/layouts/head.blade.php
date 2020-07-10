@@ -132,7 +132,17 @@
                     </a>
                     <ul class="sidebar-submenu">
                         <li><a href="/my_admin/banner"><i class="zmdi zmdi-long-arrow-right"></i>轮播图管理</a></li>
-                        <li><a href="1"><i class="zmdi zmdi-long-arrow-right"></i>新产品推荐</a></li>
+                        <li><a href="/my_admin/top_banner"><i class="zmdi zmdi-long-arrow-right"></i>顶部banner图管理</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javaScript:void();" class="waves-effect">
+                        <i class="zmdi zmdi-invert-colors"></i> <span>公司信息管理</span>
+                        <i class="fa fa-angle-left float-right"></i>
+                    </a>
+                    <ul class="sidebar-submenu">
+                        <li><a href="/my_admin/banner"><i class="zmdi zmdi-long-arrow-right"></i>公司简介</a></li>
+                        <li><a href="1"><i class="zmdi zmdi-long-arrow-right"></i>招聘信息管理</a></li>
                     </ul>
                 </li>
                 <li>

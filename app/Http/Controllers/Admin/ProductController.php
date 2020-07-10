@@ -17,12 +17,12 @@ class ProductController extends Controller
     //显示添加页面
     public function create(){
         $cate = new Category();
-        $list = $cate->getTree();
-        $data = [];
-        foreach ($list as $v){
-            $v->c_name = str_repeat('- ', $v->level).$v->c_name;
-            $data[] = $v;
-        }
+        $data = $cate->getMenu(3);
+//         = [];
+//        foreach ($list as $v){
+//            $v->c_name = str_repeat('- ', $v->level).$v->c_name;
+//            $data[] = $v;
+//        }
         return view('admin.Productadd',compact('data'));
     }
     //显示详情

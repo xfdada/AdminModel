@@ -32,6 +32,12 @@
                                         <input type="text" name="p_name" value="{{$res->p_name}}" lay-verify="required" autocomplete="off" placeholder="请输入产品名称" class="layui-input">
                                     </div>
                                 </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">产品型号</label>
+                                        <div class="layui-input-block">
+                                            <input type="text" name="p_model" value="{{$res->p_model}}"  lay-verify="required" autocomplete="off" placeholder="请输入产品型号" class="layui-input">
+                                        </div>
+                                    </div>
                                 <div class="layui-form-item" >
                                     <label class="layui-form-label">产品缩略图</label>
                                     <div style="display: flex">
@@ -110,21 +116,27 @@
                                 </div>
                                 <div class="step2" style="margin-top: 20px;">
                                     <div class="form-group">
-                                        <label for="name2">产品详情</label>
+                                        <label for="name2">产品概述</label>
                                         <textarea id="container" name="content" lay-verify="required" lay-reqtext="请输入产品详情"  style="height:400px;" type="text/plain">{!! $res->p_detail !!}</textarea>
                                     </div>
                                 </div>
                                 <div class="step3" style="margin-top: 20px;">
                                     <div class="form-group">
-                                        <label for="name2">产品参数</label>
+                                        <label for="name2">规格参数</label>
                                         <textarea id="container2" name="content2" lay-verify="required" lay-reqtext="请输入产品参数"  style="height:400px;" type="text/plain">{!! $res->p_params !!}</textarea>
                                     </div>
                                 </div>
 
                                 <div class="step4" style="margin-top: 20px;">
                                     <div class="form-group">
-                                        <label for="name2">包装售后</label>
+                                        <label for="name2">功能特性</label>
                                         <textarea id="container3" name="content3" lay-verify="required"  style="height:400px;" type="text/plain">{!! $res->p_pack !!}</textarea>
+                                    </div>
+                                </div>
+                                <div class="step5" style="margin-top: 20px;">
+                                    <div class="form-group">
+                                        <label for="name2">服务支持</label>
+                                        <textarea id="container4" name="content4" lay-verify="required"  style="height:400px;" type="text/plain">{!! $res->p_support !!}</textarea>
                                     </div>
                                 </div>
                         <div class="layui-form-item" style="margin-top: 20px;">
@@ -152,6 +164,7 @@
             var ue = UE.getEditor('container');
             var ue2 = UE.getEditor('container2');
             var ue3 = UE.getEditor('container3');
+            var ue4 = UE.getEditor('container4');
 
 
         });

@@ -12,8 +12,8 @@
      <div class="layui-form-item">
        <label class="layui-form-label">跳转路由</label>
         <div class="layui-input-block">
-            <input type="text" hidden name="ba_url" value="{{$res->ba_href}}" id="book_url">
-            <input type="text" name="ba_href" lay-verify="title" autocomplete="off" required placeholder="请输入跳转的路由" class="layui-input">
+            <input type="text" hidden name="ba_url"value="{{$res->ba_urls}}" id="book_url">
+            <input type="text" name="ba_href"  value="{{$res->ba_href}}" lay-verify="title" autocomplete="off" required placeholder="请输入跳转的路由" class="layui-input">
          </div>
      </div>
     <div class="layui-form-item">

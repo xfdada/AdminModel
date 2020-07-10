@@ -12,6 +12,7 @@ class Product extends Model
     public function saves($data){
         $datas = [
             'p_name'=>$data['p_name'],
+            'p_model'=>$data['p_model'],
             'p_icon'=>$data['icon'],
             'p_img'=>$data['img_pro'],
             'p_desc'=>$data['p_desc'],
@@ -24,6 +25,7 @@ class Product extends Model
             'p_detail'=>$data['content'],
             'p_params'=>$data['content2'],
             'p_pack'=>$data['content3'],
+            'p_support'=>$data['content4'],
             'p_time'=>date('Y-m-d H:i:s',time())
         ];
         if($data ==''){
@@ -36,6 +38,13 @@ class Product extends Model
         return ['code'=>0,'msg'=>'添加成功','data'=>''];
     }
 
+    public function show($id){
+        if($id==''){
+            return false;
+        }
+        $res  = DB::table('product')->where('p_id',$id)->first();
+        return $res;
+    }
     public function updates($id,$data){
         $datas = [
             'p_name'=>$data['p_name'],
@@ -51,6 +60,7 @@ class Product extends Model
             'p_detail'=>$data['content'],
             'p_params'=>$data['content2'],
             'p_pack'=>$data['content3'],
+            'p_support'=>$data['content4'],
         ];
         $res = DB::table('product')->where('p_id',$id)->update($datas);
         if(!$res){

@@ -63,7 +63,7 @@
                                    <div class="form-control-position">
                                      <i class="icon-lock"></i>
                                    </div>
-                                   <div style="width: 50%;"><img id="code" src="/login/captcha" alt="" onclick="this.src='/login/captcha/'+Math.random()"></div>
+                                   <div style="width: 50%;"><img id="code" src="/my_admin/login/captcha" alt="" onclick="this.src='/my_admin/login/captcha/'+Math.random()"></div>
                                  </div>
                                </div>
 								 <div class="form-row mr-0 ml-0">

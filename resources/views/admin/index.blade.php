@@ -82,6 +82,14 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-12 col-lg-6 col-xl-3">
+                    <div class="card">
+
+
+                        </div>
+                    </div>
+                </div>
+            <div class="p-2" id="mychat" style="width: 600px;height:400px;">
             </div><!--End Row-->
         </div>
         <!-- End container-fluid-->
@@ -90,5 +98,35 @@
     <!--Start Back To Top Button-->
     <a href="javaScript:void();" class="back-to-top"><i class="fa fa-angle-double-up"></i> </a>
     <!--End Back To Top Button-->
+    <script src="{{asset('js/echarts.js')}}"></script>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('mychat'));
 
+        // 指定图表的配置项和数据
+        var option = {
+            title: {
+                text: 'ECharts 入门示例'
+            },
+            tooltip: {},
+            legend: {
+                data:['销量']
+            },
+            xAxis: {
+                data: [1,2,3,4,5,6,7]
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [{
+                name: '销量',
+                type: 'line',
+                data: [5, 20, 36, 10, 10, 200],
+                smooth: true
+            }]
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    </script>
 @endsection

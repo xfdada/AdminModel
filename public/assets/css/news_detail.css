@@ -1,0 +1,23 @@
+.news_title{
+    text-align: center;
+    font-size: calc(1em + 1vw);
+}
+.new_time{
+    text-align: center;
+    font-size:14px;
+    font-family:Microsoft YaHei;
+    font-weight:400;
+    color:rgba(141,141,141,1);
+    line-height:26px;
+}
+.new_contents{
+    padding: 10px 5px 50px 5px;
+}
+.breadcrumb{
+    height: 36px !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp:1 !important;
+    -webkit-box-orient: vertical;
+}

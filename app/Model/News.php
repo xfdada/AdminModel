@@ -3,7 +3,7 @@
 namespace App\Model;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Pagination\Paginator;
 class News extends Model
 {
     protected $table = 'news';

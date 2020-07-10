@@ -77,7 +77,7 @@
             table.on('tool(test3)', function(obj){
                 var data = obj.data;
               if(obj.event === 'del'){
-                  layer.confirm('真的删除行么', function(index){
+                  layer.confirm('真的删除么', function(index){
                       $.post('/my_admin/banner/'+data.ba_id,{_method:'delete','_token': "{!! csrf_token() !!}"},function(res){
                           if(res.code===0){
                               obj.del();
@@ -92,7 +92,7 @@
                   layer.open({
                       type: 2 //Page层类型
                       ,area: ['700px', '400px']
-                      ,title: '说明书编辑'
+                      ,title: '轮播图编辑'
                       ,shade: 0.6 //遮罩透明度
                       ,content: '/my_admin/banner/'+data.ba_id+'/edit'
 

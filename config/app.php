@@ -1,5 +1,7 @@
 <?php
 
+use App\Providers\ComposerServiceProvider;
+
 return [
 
     /*
@@ -52,9 +54,9 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://www.model.com'),
+    'url' => env('APP_URL', 'http://192.168.16.45'),
 
-    'asset_url' => env('ASSET_URL', 'http://www.model.com/assets'),
+    'asset_url' => env('ASSET_URL', 'http://192.168.16.45/assets'),
 
     /*
     |--------------------------------------------------------------------------
@@ -174,6 +176,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\ComposerServiceProvider::class,
 
     ],
 

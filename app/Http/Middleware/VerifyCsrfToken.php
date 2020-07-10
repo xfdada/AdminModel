@@ -20,6 +20,6 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         //
-        '/product/upload','/book/upload','/resource/upload','/api/upload'
+        '/my_admin/product/upload','/my_admin/book/upload','/my_admin/resource/upload','/my_admin/api/upload','/test'
     ];
 }

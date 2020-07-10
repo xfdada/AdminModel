@@ -14,6 +14,7 @@ use App\Model\Product;
 use App\Model\Question;
 use App\Model\Refund;
 use App\Model\Resource;
+use App\Model\TopBanner;
 use App\Model\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -104,6 +105,12 @@ class ApiController extends Controller
     }
     public function banner_list(Request $request){
         $res= new Banner();
+        $page = $request->input('page',1);
+        $limit = $request->input('limit',10);
+        return $res->getList($page,$limit);
+    }
+    public function top_banner_list(Request $request){
+        $res= new TopBanner();
         $page = $request->input('page',1);
         $limit = $request->input('limit',10);
         return $res->getList($page,$limit);
